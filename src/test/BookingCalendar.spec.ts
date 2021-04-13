@@ -3,7 +3,6 @@ import 'mocha';
 import { BookingCalendar } from '../app/BookingCalendar';
 
 describe("getMonths function from BookingCalendar class", () => {
-
     it("should return months in spanish", () => {
         const calendar = new BookingCalendar('es', 'key');
         const months = [
@@ -25,12 +24,9 @@ describe("getMonths function from BookingCalendar class", () => {
         ];
         expect(calendar.getMonths()).to.eql(months);
     });
-
 });
 
-
 describe("getMonth function from BookingCalendar class", () => {
-
     it("should return month 5 in spanish", () => {
         const calendar = new BookingCalendar('es', 'key');
 
@@ -73,12 +69,10 @@ describe("getMonth function from BookingCalendar class", () => {
             calendar.getMonth(12)
         }).to.throw(Error, 'Month cannot be greater than 11.');
     });
-
 });
 
 
 describe("getDays function from BookingCalendar class", () => {
-
     it("should return days in spanish", () => {
         const calendar = new BookingCalendar('es', 'key');
 
@@ -98,12 +92,9 @@ describe("getDays function from BookingCalendar class", () => {
 
         expect(result).to.eql(expectedResult);
     });
-
 });
 
-
 describe("getDay function from BookingCalendar class", () => {
-
     it("should return day 6 in spanish", () => {
         const calendar = new BookingCalendar('es', 'key');
 
@@ -113,11 +104,41 @@ describe("getDay function from BookingCalendar class", () => {
         expect(result).to.equal(expectedResult);
     });
 
-    it("shouldn't return day 7 in spanish, should throw an error", () => {
+    it("shouldn't return day 7 in spanish, it should throw an error", () => {
         const calendar = new BookingCalendar('es', 'key');
         expect(function () {
             calendar.getDay(7)
         }).to.throw(Error, 'Day cannot be greater than 6.');
     });
+});
 
+
+describe("getMonthDay function from BookingCalendar class", () => {
+    it("should return the number of days of February",() =>{
+        const calendar = new BookingCalendar('es', 'key');
+        let expectedResult = 28;
+        let result = calendar.getMonthDays(2, 2021);
+        expect(result).to.equal(expectedResult);
+    });
+
+    it("shouldn't return the number of days of the 14th month, it should throw an error",() =>{
+        const calendar = new BookingCalendar('es', 'key');
+        expect(function () {
+            calendar.getMonthDays(14, 21);
+        }).to.throw(Error, 'Month cannot be greater than 12 and less than 1.');
+    });
+
+    it("shouldn't return the number of days of -2 month, it should throw an error",() =>{
+        const calendar = new BookingCalendar('es', 'key');
+        expect(function () {
+            calendar.getMonthDays(-10, 21);
+        }).to.throw(Error, 'Month cannot be greater than 12 and less than 1.');
+    });
+
+    it("should return the number of days of February, even if the year is negative",() =>{
+        const calendar = new BookingCalendar('es', 'key');
+        let expectedResult = 28;
+        let result = calendar.getMonthDays(2, -2021);
+        expect(result).to.equal(expectedResult);
+    }); 
 });
