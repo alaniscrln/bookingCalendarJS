@@ -18,17 +18,17 @@ export class BookingCalendar {
     /**
      * ?
      */
-    months = [];
+    monthsName = [];
 
     /**
      * ?
      */
-    days = []
+    daysName = []
 
     /**
      * ?
      */
-     currentDate: Date;
+    currentDate: Date;
 
     /**
      * lang {es/}
@@ -36,17 +36,18 @@ export class BookingCalendar {
     constructor(lang: 'es' | 'en' = 'en', key: string) {
         this.lang = lang.toLowerCase();
         this.key = key;
-        this.months = LANGMONTH[this.lang];
-        this.days = LANGDAY[this.lang];
-        this.currentDate = new Date();
+        this.monthsName = LANGMONTH[this.lang];
+        this.daysName = LANGDAY[this.lang];
+        let today = new Date();
+        this.currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
     }
 
     /**
-     * Get name of months
+     * Get names of months
      * return an array of months
      */
-    getMonths(): string[] {
-        return this.months;
+    getMonthsName(): string[] {
+        return this.monthsName;
     }
 
     /**
@@ -54,19 +55,19 @@ export class BookingCalendar {
      * month {number} Number of a month, starting from 0
      * return the requested month name
      */
-    getMonth(month: number): string {
-        if (month >= this.months.length) {
+    getMonthName(month: number): string {
+        if (month >= this.monthsName.length) {
             throw new Error("Month cannot be greater than 11.");
         }
-        return this.months[month];
+        return this.monthsName[month];
     }
 
     /**
      * Get initial letter of the days
      * return an array of days
      */
-    getDays(): string[] {
-        return this.days;
+    getDaysName(): string[] {
+        return this.daysName;
     }
 
     /**
@@ -74,11 +75,11 @@ export class BookingCalendar {
      * day {number} Number of a day of the week, starting from 0
      * return the requested day name
      */
-    getDay(day: number): string {
-        if (day >= this.days.length) {
+    getDayName(day: number): string {
+        if (day >= this.daysName.length) {
             throw new Error('Day cannot be greater than 6.');
         }
-        return this.days[day];
+        return this.daysName[day];
     }
 
     /**
@@ -87,26 +88,18 @@ export class BookingCalendar {
      * year {number} Number of the year
      * return the number of days that the requested month has
      */
-    getMonthDays(month: number, year: number): number {
-        if (month <= 0 || month > 12) {
-            throw new Error('Month cannot be greater than 12 and less than 1.');
-        }
-        return new Date(year, month, 0).getDate();
+    getMonthDays(): number {
+        let month: number = this.currentDate.getMonth();
+        let year: number = this.currentDate.getFullYear();
+        return  new Date(year, month+1, 0).getDate(); 
     };
 
     /**
      * Get the first day of the month as a number
-     * year {number} Number of the year
-     * month {year} Number of the month, starting from 0
      * return the number of the day, starting from 0 as Sunday
      */
-    getFirstDayOfMonth(month: number, year: number): number {
-        if (month < 0 || month > 11) {
-            throw new Error('Month cannot be greater than 11 and less than 0.');
-        }
-        var date = new Date(year, month, 1);
-        var index = date.getDay();
-        return index;
+    getFirstDayOfMonth(): number {
+        return this.currentDate.getDay();
     }
 
     /**
@@ -114,30 +107,25 @@ export class BookingCalendar {
      * date {Date} date 
      * return an array with the structure of the month
      */
-    setMonthStructure(date: Date): DayI[] {
-        const month: number = date.getMonth();
-        const year: number = date.getFullYear();
-
-        const blankSpaces: number = this.getFirstDayOfMonth(month, year);
-        const monthDays: number = this.getMonthDays(month + 1, year);
-
+    setMonthStructure(): DayI[] {
+        const blankSpaces: number = this.getFirstDayOfMonth();
+        const monthDays: number = this.getMonthDays();
         let monthStructure: DayI[] = new Array(blankSpaces);
         monthStructure.fill(null, 0, blankSpaces);
-        let days: DayI[] = Array.from({ length: monthDays }, (_, index) => ({day: index + 1+""} as DayI));
+        let days: DayI[] = Array.from({ length: monthDays }, (_, index) => ({ day: index + 1 + "" } as DayI));
         monthStructure = monthStructure.concat(days);
-
         return monthStructure;
     }
 
-    setPreviousMonth(){
+    setPreviousMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() - 1);
     }
-    
-    setNextMonth(){
+
+    setNextMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() + 1);
     }
- 
-    changeMonth(date:Date){
-        this.currentDate = date;
+
+    changeMonth(date: Date) {
+        this.currentDate = new Date(date.getFullYear(), date.getMonth(), 1);
     }
 }
