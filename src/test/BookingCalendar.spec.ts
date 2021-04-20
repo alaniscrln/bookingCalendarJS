@@ -34,19 +34,15 @@ describe('Booking Calendar class', () => {
 
         describe("getDays function", () => {
             test("should return days", () => {
-
                 let result: string[] = calendar.getDaysName();
-                let expectedResult: string[] = spanishDaysNames;
-
-                expect(result).toEqual(expectedResult);
+                expect(result).toEqual(spanishDaysNames);
             });
         });
 
         describe("getDay function", () => {
             test("should return day 6", () => {
                 let result: string = calendar.getDayName(6);
-                let expectedResult: string = 'S';
-                expect(result).toEqual(expectedResult);
+                expect(result).toEqual(spanishDaysNames[6]);
             });
 
             test("shouldn't return day 7, test should throw an error", () => {
@@ -97,22 +93,9 @@ describe('Booking Calendar class', () => {
         describe("getDays function", () => {
             test("should return days", () => {
                 let result: string[] = calendar.getDaysName();
-                let expectedResult: string[] = ['S', 'M', 'T',
-                    'W', 'T', 'F', 'S'];
-                expect(result).toEqual(expectedResult);
+                expect(result).toEqual(englishDaysNames);
             });
         });
-
-        describe("getDays function", () => {
-            test("should return days", () => {
-
-                let result: string[] = calendar.getDaysName();
-                let expectedResult: string[] = englishDaysNames;
-
-                expect(result).toEqual(expectedResult);
-            });
-        });
-
     });
     /* ----------------------------- End English ----------------------------- */
 
