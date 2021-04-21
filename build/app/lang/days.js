@@ -5,4 +5,4 @@ export const lang = {
     "en": ["S", "M", "T",
         "W", "T", "F", "S"
     ]
-}
+};

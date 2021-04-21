@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv6="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            font-family: Raleway,sans-serif;
+        }
+
+        #calendar-header{
+            text-align: center;
+            background: #0e717f;
+            color: #fff;
+            width: 100%;
+            font-size: 18px;
+            color: #fff;
+            line-height: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        #calendar-header #days .cell{
+            background: #0e717f;
+            color: #fff;
+        }
+        
+        #days-container{
+            border: #CCCCCC 1px solid;
+        }
+
+        #days-container .cell{
+            border: #CCCCCC 1px solid;
+        }
+        
+        .cell_empty{
+            width: calc(100% / 7);
+            display: inline-block;
+            text-align: center;
+        }
+
+        .cell {
+            background: #fff;
+            color: #000;
+            box-sizing: border-box;
+            display: inline-block;
+            padding: 10px 0;
+            text-align: center;
+            width: calc(100% / 7);
+            cursor: pointer;
+        }
+
+        #days-container .cell:active {
+            color: white;
+            background-color: #0e717f;
+        }
+
+        #days-container .cell:hover {
+            background-color: #eee;
+        }
+    </style>
+
+</head>
+
+<body>
+    
+    <div id="container">
+    </div>
+
+    <script type="module">
+        import { BookingCalendar } from "./app/BookingCalendar.js";
+        const calendar = new BookingCalendar('es', 'key', 'container');
+        calendar.init();
+    </script>
+
+</body>
