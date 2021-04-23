@@ -1,14 +1,16 @@
-import { lang as langMonths } from './lang/months.js';
-import { lang as langDays } from './lang/days.js';
-import { MonthI } from './Interfaces/MonthI.js';
-import { DayI } from './Interfaces/DayI.js';
+import { lang as langMonths } from './lang/months';
+import { lang as langDays } from './lang/days';
+import { MonthI } from './Interfaces/MonthI';
+import { DayI } from './Interfaces/DayI';
+
+type Language = 'es' | 'en';
 
 export class BookingCalendar {
 
     /**
      * Language in which the calendar is going to be displayed
      */
-    lang: string;
+    lang: Language;
 
     /**
      * Google API Calendar Key
@@ -31,7 +33,7 @@ export class BookingCalendar {
     currentDate: Date;
 
     /**
-     * Main container 
+     * Main container
      */
     container: HTMLElement;
 
@@ -41,7 +43,7 @@ export class BookingCalendar {
     monthNameContainer: HTMLElement;
 
     /**
-     * Days container 
+     * Days container
      */
     daysContainer: HTMLElement;
 
@@ -50,8 +52,8 @@ export class BookingCalendar {
      * key {string} Google Calendar API KEY
      * idContainer {string} Container ID where the calendar is going to be displayed
      */
-    constructor(lang: 'es' | 'en' = 'en', key: string, idContainer: string) {
-        this.lang = lang.toLowerCase();
+    constructor(lang: Language = 'en', key: string, idContainer: string) {
+        this.lang = lang;
         this.key = key;
         this.monthsName = langMonths[lang] as string[];
         this.daysName = langDays[lang] as string[];
@@ -98,13 +100,13 @@ export class BookingCalendar {
     }
 
 
-    /**    
+    /**
      * Event to change the month by clicking the next or previous buttons
-     * isNext {boolean} Indicates in which direction the month is going to be changed, 
+     * isNext {boolean} Indicates in which direction the month is going to be changed,
      * true = next, false = previous.
      */
     chageMonthEvent(isNext: boolean) {
-        isNext ? this.setNextMonth() : this.setPreviousMonth();
+        isNext ? this.setNextMonth() : this.setPreviousMonth(); // logica
         this.setCalendarMonthElement();
         this.fillCalendarDaysElement();
     }
@@ -138,14 +140,14 @@ export class BookingCalendar {
     /**
      * Fill calendar with all the days
      */
-    fillCalendarDaysElement() {
+    fillCalendarDaysElement() { // logica
         this.daysContainer.innerHTML = "";
         let today = new Date();
         this.setMonthStructure().forEach(day => {
             const cell: HTMLElement = document.createElement("div");
             cell.innerHTML = (day?.day) ? day.day : "";
             (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
-            if(day?.day && parseInt(day.day) < today.getDate() 
+            if(day?.day && parseInt(day.day) < today.getDate()
             && today.getMonth() == this.currentDate.getMonth()
             && today.getFullYear() == this.currentDate.getFullYear()){
                 cell.classList.add("cell_disabled");
@@ -216,7 +218,7 @@ export class BookingCalendar {
 
     /**
      * Set the month structure
-     * date {Date} date 
+     * date {Date} date
      * return an array with the structure of the month
      */
     setMonthStructure(): DayI[] {
