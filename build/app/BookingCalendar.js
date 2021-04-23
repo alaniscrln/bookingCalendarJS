@@ -2,7 +2,9 @@ import { lang as langMonths } from './lang/months.js';
 import { lang as langDays } from './lang/days.js';
 export class BookingCalendar {
     /**
-     * lang {es/}
+     * lang {es | en} Calendar language
+     * key {string} Google Calendar API KEY
+     * idContainer {string} Container ID where the calendar is going to be displayed
      */
     constructor(lang = 'en', key, idContainer) {
         /**
@@ -24,6 +26,9 @@ export class BookingCalendar {
         this.daysContainer = document.createElement("div");
         this.daysContainer.setAttribute("id", "days-container");
     }
+    /**
+     * Initialize the calendar
+     */
     init() {
         this.createHeader();
         this.createDaysNameElement();
@@ -34,14 +39,18 @@ export class BookingCalendar {
      * Setting the header with the previous and next buttons and the month
      */
     createHeader() {
+        // Header
         let header = document.createElement("div");
         header.setAttribute("id", "calendar-header");
+        // Previous Button
         let btnPreviousMonth = document.createElement("button");
         btnPreviousMonth.innerHTML = "<";
         btnPreviousMonth.addEventListener('click', () => this.chageMonthEvent(false));
         header.appendChild(btnPreviousMonth);
+        //Month Name
         this.setCalendarMonthElement();
         header.appendChild(this.monthNameContainer);
+        // Next Button
         let btnNextMonth = document.createElement("button");
         btnNextMonth.innerHTML = ">";
         btnNextMonth.addEventListener('click', () => this.chageMonthEvent(true));
@@ -50,6 +59,8 @@ export class BookingCalendar {
     }
     /**
      * Event to change the month by clicking the next or previous buttons
+     * isNext {boolean} Indicates in which direction the month is going to be changed,
+     * true = next, false = previous.
      */
     chageMonthEvent(isNext) {
         isNext ? this.setNextMonth() : this.setPreviousMonth();
@@ -85,10 +96,16 @@ export class BookingCalendar {
      */
     fillCalendarDaysElement() {
         this.daysContainer.innerHTML = "";
+        let today = new Date();
         this.setMonthStructure().forEach(day => {
             const cell = document.createElement("div");
             cell.innerHTML = (day === null || day === void 0 ? void 0 : day.day) ? day.day : "";
             (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
+            if ((day === null || day === void 0 ? void 0 : day.day) && parseInt(day.day) < today.getDate()
+                && today.getMonth() == this.currentDate.getMonth()
+                && today.getFullYear() == this.currentDate.getFullYear()) {
+                cell.classList.add("cell_disabled");
+            }
             this.daysContainer.appendChild(cell);
         });
     }
@@ -165,7 +182,10 @@ export class BookingCalendar {
      * Set the currentDate to the previous month
      */
     setPreviousMonth() {
-        this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        const today = new Date();
+        if (today < this.currentDate) {
+            this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        }
     }
     /**
      * Set the currentDate to the next month

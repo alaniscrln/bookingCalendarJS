@@ -5,70 +5,41 @@
     <meta charset="UTF-8">
     <meta http-equiv6="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .container{
-            font-family: Raleway,sans-serif;
-        }
-
-        #calendar-header{
-            text-align: center;
-            background: #0e717f;
-            color: #fff;
-            width: 100%;
-            font-size: 18px;
-            color: #fff;
-            line-height: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        #calendar-header #days .cell{
-            background: #0e717f;
-            color: #fff;
-        }
-        
-        #days-container{
-            border: #CCCCCC 1px solid;
-        }
-
-        #days-container .cell{
-            border: #CCCCCC 1px solid;
-        }
-        
-        .cell_empty{
-            width: calc(100% / 7);
-            display: inline-block;
-            text-align: center;
-        }
-
-        .cell {
-            background: #fff;
-            color: #000;
-            box-sizing: border-box;
-            display: inline-block;
-            padding: 10px 0;
-            text-align: center;
-            width: calc(100% / 7);
-            cursor: pointer;
-        }
-
-        #days-container .cell:active {
-            color: white;
-            background-color: #0e717f;
-        }
-
-        #days-container .cell:hover {
-            background-color: #eee;
-        }
-    </style>
-
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Booking Calendar [LM]</title>
 </head>
 
 <body>
-    
+
     <div id="container">
     </div>
+    
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        
+        ///////////////////////////////
+
+        function start() {
+            // 2. Initialize the JavaScript client library.
+            gapi.client.init({
+                'apiKey': 'AIzaSyB76XK4q5mVGnIXz14WpftXJj-rVopXZxo',
+                // clientId and scope are optional if auth is not required.
+                'clientId': '225537859033-31845kaum33eb1oivvn8o2mh1c98govr.apps.googleusercontent.com',
+                'scope': 'profile',
+            }).then(function() {
+                // 3. Initialize and make the API request.
+                return gapi.client.request({
+                    'path': 'https://www.googleapis.com/calendar/v3/calendars/bookingcalendar.lm@gmail.com',
+                })
+            }).then(function(response) {
+                console.log(response.result);
+            }, function(reason) {
+                console.log('Error: ' + reason.result.error.message);
+            });
+            };
+            // 1. Load the JavaScript client library.
+            gapi.load('client', start);
+    </script>
 
     <script type="module">
         import { BookingCalendar } from "./app/BookingCalendar.js";

@@ -26,7 +26,7 @@ export class BookingCalendar {
     daysName: string[] = [];
 
     /**
-     * Curren date
+     * Current date
      */
     currentDate: Date;
 
@@ -34,11 +34,11 @@ export class BookingCalendar {
      * Main container 
      */
     container: HTMLElement;
-    
+
     /**
      * Month name Container
      */
-    monthNameContainer : HTMLElement;
+    monthNameContainer: HTMLElement;
 
     /**
      * Days container 
@@ -46,7 +46,9 @@ export class BookingCalendar {
     daysContainer: HTMLElement;
 
     /**
-     * lang {es/}
+     * lang {es | en} Calendar language
+     * key {string} Google Calendar API KEY
+     * idContainer {string} Container ID where the calendar is going to be displayed
      */
     constructor(lang: 'es' | 'en' = 'en', key: string, idContainer: string) {
         this.lang = lang.toLowerCase();
@@ -61,6 +63,9 @@ export class BookingCalendar {
         this.daysContainer.setAttribute("id", "days-container");
     }
 
+    /**
+     * Initialize the calendar
+     */
     init() {
         this.createHeader();
         this.createDaysNameElement();
@@ -72,17 +77,18 @@ export class BookingCalendar {
      * Setting the header with the previous and next buttons and the month
      */
     createHeader() {
+        // Header
         let header: HTMLElement = document.createElement("div");
         header.setAttribute("id", "calendar-header");
-
+        // Previous Button
         let btnPreviousMonth: HTMLElement = document.createElement("button");
         btnPreviousMonth.innerHTML = "<";
         btnPreviousMonth.addEventListener('click', () => this.chageMonthEvent(false));
         header.appendChild(btnPreviousMonth);
-
+        //Month Name
         this.setCalendarMonthElement();
         header.appendChild(this.monthNameContainer);
-
+        // Next Button
         let btnNextMonth: HTMLElement = document.createElement("button");
         btnNextMonth.innerHTML = ">";
         btnNextMonth.addEventListener('click', () => this.chageMonthEvent(true));
@@ -92,8 +98,10 @@ export class BookingCalendar {
     }
 
 
-    /**
+    /**    
      * Event to change the month by clicking the next or previous buttons
+     * isNext {boolean} Indicates in which direction the month is going to be changed, 
+     * true = next, false = previous.
      */
     chageMonthEvent(isNext: boolean) {
         isNext ? this.setNextMonth() : this.setPreviousMonth();
@@ -106,7 +114,7 @@ export class BookingCalendar {
      */
     createDaysNameElement() {
         let header: HTMLElement = document.getElementById("calendar-header");
-        let daysContainer : HTMLElement = document.createElement("div");
+        let daysContainer: HTMLElement = document.createElement("div");
         daysContainer.setAttribute("id", "days");
         this.getDaysName().forEach(name => {
             const cell: HTMLElement = document.createElement("div");
@@ -120,7 +128,7 @@ export class BookingCalendar {
     /**
      * Set the month name in the calendar element
      */
-    setCalendarMonthElement(){
+    setCalendarMonthElement() {
         const currentMonth: HTMLElement = document.createElement('p');
         currentMonth.setAttribute("id", "current-month");
         currentMonth.innerHTML = this.getMonthName(this.currentDate.getMonth()) + " " + this.currentDate.getFullYear();
@@ -132,10 +140,16 @@ export class BookingCalendar {
      */
     fillCalendarDaysElement() {
         this.daysContainer.innerHTML = "";
+        let today = new Date();
         this.setMonthStructure().forEach(day => {
             const cell: HTMLElement = document.createElement("div");
             cell.innerHTML = (day?.day) ? day.day : "";
-            (cell.innerHTML != "")?cell.classList.add('cell'):cell.classList.add('cell_empty');
+            (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
+            if(day?.day && parseInt(day.day) < today.getDate() 
+            && today.getMonth() == this.currentDate.getMonth()
+            && today.getFullYear() == this.currentDate.getFullYear()){
+                cell.classList.add("cell_disabled");
+            }
             this.daysContainer.appendChild(cell);
         });
     }
@@ -219,7 +233,10 @@ export class BookingCalendar {
      * Set the currentDate to the previous month
      */
     setPreviousMonth() {
-        this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        const today = new Date();
+        if(today < this.currentDate){
+            this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+        }
     }
 
     /**

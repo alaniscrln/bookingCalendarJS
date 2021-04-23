@@ -99,25 +99,23 @@ describe('Booking Calendar class', () => {
             });
         });
         describe("setPreviousMonth and setNextMonth functions", () => {
-            test("should change the currentMonth (2021, 3) to the previous one", () => {
-                calendar.changeMonth(new Date(2021, 3));
+            test("shouldn't change the currentMonth (today) to the previous one", () => {
+                const expectedResult = calendar.currentDate;
                 calendar.setPreviousMonth();
-                const expectedResult = new Date(2021, 2);
                 const result = calendar.currentDate;
                 expect(result).toEqual(expectedResult);
             });
             test("should change the currentMonth(2021, 3) to the next one", () => {
-                const calendar = new BookingCalendar('es', 'key', 'container');
                 calendar.changeMonth(new Date(2021, 3));
                 calendar.setNextMonth();
                 const expectedResult = new Date(2021, 4);
                 const result = calendar.currentDate;
                 expect(result).toEqual(expectedResult);
             });
-            test("should change the currentMonth (2021, 0) to the previous one", () => {
-                calendar.changeMonth(new Date(2021, 0));
+            test("should change the currentMonth (Today + 1) to the previous one (Today)", () => {
+                const expectedResult = calendar.currentDate;
+                calendar.changeMonth(new Date(calendar.currentDate.getFullYear(), calendar.currentDate.getMonth() + 1));
                 calendar.setPreviousMonth();
-                const expectedResult = new Date(2020, 11);
                 const result = calendar.currentDate;
                 expect(result).toEqual(expectedResult);
             });
