@@ -10,7 +10,7 @@ describe('Calendar class', () => {
 
     describe('in Spanish', () => {
         beforeEach(() => {
-            calendar = new Calendar('es', 'key', 'container');
+            calendar = new Calendar('es', 'key');
         });
 
         describe("getMonths function", () => {
@@ -21,14 +21,15 @@ describe('Calendar class', () => {
 
         describe("getMonth function", () => {
             test("should return month 5", () => {
-                let result: string = calendar.getMonthName(5);
+                calendar.changeDate(new Date(2021, 5));
+                let result: string = calendar.getMonthName();
                 expect(result).toEqual(spanishMonthsNames[5]);
             });
 
-            test("shouldn't return month 12, should throw an error", () => {
-                expect(function () {
-                    calendar.getMonthName(12)
-                }).toThrow(new Error('Month cannot be greater than 11.'));
+            test("shouldn't return month 12, should return month 1 (Enero)", () => {
+                calendar.changeDate(new Date(2021, 12));
+                let result = calendar.getMonthName();
+                expect(result).toEqual('Enero');
             });
         });
 
@@ -54,7 +55,7 @@ describe('Calendar class', () => {
 
         describe("getMonthDays function", () => {
             test("should return the number of days of February", () => {
-                calendar.changeMonth(new Date(2021, 1));
+                calendar.changeDate(new Date(2021, 1));
                 let expectedResult = 28;
                 let result = calendar.getMonthDays();
                 expect(result).toEqual(expectedResult);
@@ -63,7 +64,7 @@ describe('Calendar class', () => {
 
         describe("getFirstDayOfMonth function", () => {
             test("should show the number of the first day of August 2021 (Sunday => 0)", () => {
-                calendar.changeMonth(new Date(2021, 7));
+                calendar.changeDate(new Date(2021, 7));
                 let result = calendar.getFirstDayOfMonth();
                 let expectedResult = 0;
                 expect(result).toEqual(expectedResult);
@@ -74,7 +75,7 @@ describe('Calendar class', () => {
     /* ----------------------------- Start English ----------------------------- */
     describe('in English', () => {
         beforeEach(() => {
-            calendar = new Calendar('en', 'key', 'container');
+            calendar = new Calendar('en', 'key');
         });
 
         describe("getMonths function", () => {
@@ -85,7 +86,8 @@ describe('Calendar class', () => {
 
         describe("getMonth function", () => {
             test("should return month 5 in english", () => {
-                let result: string = calendar.getMonthName(5);
+                calendar.changeDate(new Date(2021, 5));
+                let result: string = calendar.getMonthName();
                 expect(result).toEqual(englishMonthsNames[5]);
             });
         });
@@ -101,18 +103,18 @@ describe('Calendar class', () => {
 
     describe("Generics test", () => {
         beforeEach(() => {
-            calendar = new Calendar('es', 'key', 'container');
+            calendar = new Calendar('es', 'key');
         });
 
         describe("setMonthStructure function", () => {
             test("should return an array with August structure", () => {
-                calendar.changeMonth(new Date(2021, 7));
+                calendar.changeDate(new Date(2021, 7));
                 const result = calendar.setMonthStructure();
                 expect(result).toEqual(augustStructure);
             });
 
             test("should return an array with October structure", () => {
-                calendar.changeMonth(new Date(2021, 9));
+                calendar.changeDate(new Date(2021, 9));
                 const result = calendar.setMonthStructure();
                 expect(result).toEqual(octoberStructure);
             });
@@ -120,38 +122,38 @@ describe('Calendar class', () => {
 
         describe("setPreviousMonth and setNextMonth functions", () => {
             test("shouldn't change the currentMonth (today) to the previous one", () => {
-                const expectedResult = calendar.currentDate;
+                const expectedResult = calendar.getCurrentDate();
                 calendar.setPreviousMonth();
-                const result = calendar.currentDate;
+                const result = calendar.getCurrentDate();
                 expect(result).toEqual(expectedResult);
             });
 
 
             test("should change the currentMonth(2021, 3) to the next one", () => {
-                calendar.changeMonth(new Date(2021, 3));
+                calendar.changeDate(new Date(2021, 3));
                 calendar.setNextMonth();
                 const expectedResult = new Date(2021, 4);
-                const result = calendar.currentDate;
+                const result = calendar.getCurrentDate();
                 expect(result).toEqual(expectedResult);
             });
 
             test("should change the currentMonth (Today + 1) to the previous one (Today)", () => {
-                const expectedResult = calendar.currentDate;
-                calendar.changeMonth(
+                const expectedResult = calendar.getCurrentDate();
+                calendar.changeDate(
                     new Date(
-                        calendar.currentDate.getFullYear(),
-                        calendar.currentDate.getMonth()+1
+                        calendar.getCurrentDate().getFullYear(),
+                        calendar.getCurrentDate().getMonth() + 1
                     ));
                 calendar.setPreviousMonth();
-                const result = calendar.currentDate;
+                const result = calendar.getCurrentDate();
                 expect(result).toEqual(expectedResult);
             });
 
             test("should change the currentMonth (2020, 11) to the next one", () => {
-                calendar.changeMonth(new Date(2020, 11));
+                calendar.changeDate(new Date(2020, 11));
                 calendar.setNextMonth();
                 const expectedResult = new Date(2021, 0);
-                const result = calendar.currentDate;
+                const result = calendar.getCurrentDate();
                 expect(result).toEqual(expectedResult);
             });
         });

@@ -1,16 +1,14 @@
 import { lang as langMonths } from './lang/months';
 import { lang as langDays } from './lang/days';
-import { MonthI } from './Interfaces/MonthI';
 import { DayI } from './Interfaces/DayI';
-
-type Language = 'es' | 'en';
+import { Language } from './Language';
 
 export class Calendar {
 
     /**
      * Language in which the calendar is going to be displayed
      */
-    lang: Language;
+     lang: string;
 
     /**
      * Google API Calendar Key
@@ -18,143 +16,89 @@ export class Calendar {
     private readonly key: string;
 
     /**
-     * Names of the months
-     */
-    monthsName: string[] = [];
-
-    /**
-     * Names of the days
-     */
-    daysName: string[] = [];
-
-    /**
      * Current date
      */
-    currentDate: Date;
-
+    private currentDate: Date;
+    
     /**
-     * Main container
+     * Names of the months
      */
-    container: HTMLElement;
+     monthsName: string[] = [];
+
+     /**
+      * Names of the days
+      */
+     daysName: string[] = []; 
 
     /**
-     * Month name Container
-     */
-    monthNameContainer: HTMLElement;
-
-    /**
-     * Days container
-     */
-    daysContainer: HTMLElement;
-
-    /**
-     * lang {es | en} Calendar language
      * key {string} Google Calendar API KEY
-     * idContainer {string} Container ID where the calendar is going to be displayed
      */
-    constructor(lang: Language = 'en', key: string, idContainer: string) {
+    constructor(lang: Language, key: string) {
         this.lang = lang;
         this.key = key;
         this.monthsName = langMonths[lang] as string[];
         this.daysName = langDays[lang] as string[];
         let today = new Date();
         this.currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
-        this.container = document.getElementById(idContainer);
-        this.monthNameContainer = document.createElement("span");
-        this.daysContainer = document.createElement("div");
-        this.daysContainer.setAttribute("id", "days-container");
     }
 
-    /**
-     * Initialize the calendar
-     */
-    init() {
-        this.createHeader();
-        this.createDaysNameElement();
-        this.container.appendChild(this.daysContainer);
-        this.fillCalendarDaysElement();
-    }
+    
+    // /**
+    //  * Event to change the month by clicking the next or previous buttons
+    //  * isNext {boolean} Indicates in which direction the month is going to be changed,
+    //  * true = next, false = previous.
+    //  */
+    // changeMonthEvent(isNext: boolean) {
+    //     isNext ? this.setNextMonth() : this.setPreviousMonth(); // logica
+    //     this.setCalendarMonthElement();
+    //     this.fillCalendarDaysElement();
+    // }
+    
 
-    /**
-     * Setting the header with the previous and next buttons and the month
-     */
-    createHeader() {
-        // Header
-        let header: HTMLElement = document.createElement("div");
-        header.setAttribute("id", "calendar-header");
-        // Previous Button
-        let btnPreviousMonth: HTMLElement = document.createElement("button");
-        btnPreviousMonth.innerHTML = "<";
-        btnPreviousMonth.addEventListener('click', () => this.chageMonthEvent(false));
-        header.appendChild(btnPreviousMonth);
-        //Month Name
-        this.setCalendarMonthElement();
-        header.appendChild(this.monthNameContainer);
-        // Next Button
-        let btnNextMonth: HTMLElement = document.createElement("button");
-        btnNextMonth.innerHTML = ">";
-        btnNextMonth.addEventListener('click', () => this.chageMonthEvent(true));
-        header.appendChild(btnNextMonth);
+    // /**
+    //  * Create the element with the name of the days
+    //  */
+    // createDaysNameElement() {
+    //     let header: HTMLElement = document.getElementById("calendar-header");
+    //     let daysContainer: HTMLElement = document.createElement("div");
+    //     daysContainer.setAttribute("id", "days");
+    //     this.getDaysName().forEach(name => {
+    //         const cell: HTMLElement = document.createElement("div");
+    //         cell.classList.add('cell');
+    //         cell.innerHTML = name;
+    //         daysContainer.appendChild(cell);
+    //     });
+    //     header.appendChild(daysContainer);
+    // }
 
-        this.container.appendChild(header);
-    }
+    // /**
+    //  * Set the month name in the calendar element
+    //  */
+    // setCalendarMonthElement() {
+    //     const currentMonth: HTMLElement = document.createElement('p');
+    //     currentMonth.setAttribute("id", "current-month");
+    //     currentMonth.innerHTML = this.getMonthName(this.currentDate.getMonth()) + " " + this.currentDate.getFullYear();
+    //     this.monthNameContainer.innerHTML = currentMonth.innerHTML;
+    // }
 
-
-    /**
-     * Event to change the month by clicking the next or previous buttons
-     * isNext {boolean} Indicates in which direction the month is going to be changed,
-     * true = next, false = previous.
-     */
-    chageMonthEvent(isNext: boolean) {
-        isNext ? this.setNextMonth() : this.setPreviousMonth(); // logica
-        this.setCalendarMonthElement();
-        this.fillCalendarDaysElement();
-    }
-
-    /**
-     * Create the element with the name of the days
-     */
-    createDaysNameElement() {
-        let header: HTMLElement = document.getElementById("calendar-header");
-        let daysContainer: HTMLElement = document.createElement("div");
-        daysContainer.setAttribute("id", "days");
-        this.getDaysName().forEach(name => {
-            const cell: HTMLElement = document.createElement("div");
-            cell.classList.add('cell');
-            cell.innerHTML = name;
-            daysContainer.appendChild(cell);
-        });
-        header.appendChild(daysContainer);
-    }
-
-    /**
-     * Set the month name in the calendar element
-     */
-    setCalendarMonthElement() {
-        const currentMonth: HTMLElement = document.createElement('p');
-        currentMonth.setAttribute("id", "current-month");
-        currentMonth.innerHTML = this.getMonthName(this.currentDate.getMonth()) + " " + this.currentDate.getFullYear();
-        this.monthNameContainer.innerHTML = currentMonth.innerHTML;
-    }
-
-    /**
-     * Fill calendar with all the days
-     */
-    fillCalendarDaysElement() { // logica
-        this.daysContainer.innerHTML = "";
-        let today = new Date();
-        this.setMonthStructure().forEach(day => {
-            const cell: HTMLElement = document.createElement("div");
-            cell.innerHTML = (day?.day) ? day.day : "";
-            (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
-            if(day?.day && parseInt(day.day) < today.getDate()
-            && today.getMonth() == this.currentDate.getMonth()
-            && today.getFullYear() == this.currentDate.getFullYear()){
-                cell.classList.add("cell_disabled");
-            }
-            this.daysContainer.appendChild(cell);
-        });
-    }
+    // /**
+    //  * Fill calendar with all the days
+    //  */
+    // fillCalendarDaysElement() { // logica
+    //     this.daysContainer.innerHTML = "";
+    //     let today = new Date();
+    //     this.setMonthStructure().forEach(day => {
+    //         const cell: HTMLElement = document.createElement("div");
+    //         cell.innerHTML = (day?.day) ? day.day : "";
+    //         (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
+    //         if(day?.day && parseInt(day.day) < today.getDate()
+    //         && today.getMonth() == this.currentDate.getMonth()
+    //         && today.getFullYear() == this.currentDate.getFullYear()){
+    //             cell.classList.add("cell_disabled");
+    //         }
+    //         this.daysContainer.appendChild(cell);
+    //     });
+    // }
 
     /**
      * Get names of months
@@ -169,11 +113,17 @@ export class Calendar {
      * month {number} Number of a month, starting from 0
      * return the requested month name
      */
-    getMonthName(month: number): string {
-        if (month >= this.monthsName.length) {
-            throw new Error("Month cannot be greater than 11.");
-        }
+    getMonthName(): string {
+        let month: number = this.currentDate.getMonth();
         return this.monthsName[month];
+    }
+
+    /**
+     * 
+     * @returns 
+     */
+    getFullYear(){
+        return this.currentDate.getFullYear();
     }
 
     /**
@@ -231,10 +181,35 @@ export class Calendar {
         return monthStructure;
     }
 
+    
+
+    /**
+     * Set the currentDate to the indicated date
+     * date {Date} date
+     */
+    changeDate(date: Date) {
+        this.currentDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    }
+
+    /**
+     * 
+     * @returns 
+     */
+    changeMonth(isNext: boolean){
+        isNext ? this.setNextMonth() : this.setPreviousMonth();
+    }
+
+    /**
+     * 
+     */
+    getCurrentDate(): Date{
+        return this.currentDate;
+    }
+
     /**
      * Set the currentDate to the previous month
      */
-    setPreviousMonth() {
+     setPreviousMonth() {
         const today = new Date();
         if(today < this.currentDate){
             this.currentDate.setMonth(this.currentDate.getMonth() - 1);
@@ -246,13 +221,5 @@ export class Calendar {
      */
     setNextMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-    }
-
-    /**
-     * Set the currentDate to the indicated date
-     * date {Date} date
-     */
-    changeMonth(date: Date) {
-        this.currentDate = new Date(date.getFullYear(), date.getMonth(), 1);
     }
 }
