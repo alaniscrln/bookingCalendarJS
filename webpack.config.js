@@ -2,48 +2,54 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: "development",
-  entry:{   
-     app:'./src/index.ts',
-     styles: './src/assets/sass/styles.scss'
-     }, 
+  entry: './src/index.ts',
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.ts?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       },
       {
-        test: /\.scss$/,
+        test: /.(scss|css)$/,
         use: [
+
           MiniCssExtractPlugin.loader,
-          { loader: "css-loader", options: { url: false, importLoaders: 1 } },
-          { loader: 'postcss-loader', options: { plugins: [autoprefixer(), cssnano()] }},
-          { loader: 'sass-loader' },
-        ],
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
       }
     ],
   },
   resolve: {
-    extensions: ['.ts', '.ts', '.js', '.scss','.css'],
+    extensions: ['.tsx', '.ts', '.js', '.scss', '.css'],
   },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
-/*
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].[chunkhash].chunk.js',
-    path: path.resolve(__dirname, 'css'),
-    publicPath: "/css" */
+    /*
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].[chunkhash].chunk.js',
+        path: path.resolve(__dirname, 'css'),
+        publicPath: "/css" */
   },
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'styles.css',
-      chunkFilename: 'styles.chunk.css',
-    })
+      filename: './assets/css/styles.css'
+    }),
+    new HtmlWebpackPlugin({  
+      filename: 'index.html',
+      template: 'src/app/index.html',
+      hash: true
+    }),
   ]
 };

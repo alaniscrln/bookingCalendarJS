@@ -1,16 +1,16 @@
-import { BookingCalendar } from '../app/BookingCalendar';
+import { Calendar } from '../app/Calendar';
 
 import { spanish as spanishMonthsNames, english as englishMonthsNames } from './fixtures/months-names.json';
 import { august as augustStructure, october as octoberStructure } from './fixtures/months-structure.json';
 import { spanish as spanishDaysNames, english as englishDaysNames } from './fixtures/days-names.json';
 
-describe('Booking Calendar class', () => {
+describe('Calendar class', () => {
 
-    let calendar: BookingCalendar;
+    let calendar: Calendar;
 
     describe('in Spanish', () => {
         beforeEach(() => {
-            calendar = new BookingCalendar('es', 'key', 'container');
+            calendar = new Calendar('es', 'key', 'container');
         });
 
         describe("getMonths function", () => {
@@ -74,7 +74,7 @@ describe('Booking Calendar class', () => {
     /* ----------------------------- Start English ----------------------------- */
     describe('in English', () => {
         beforeEach(() => {
-            calendar = new BookingCalendar('en', 'key', 'container');
+            calendar = new Calendar('en', 'key', 'container');
         });
 
         describe("getMonths function", () => {
@@ -101,7 +101,7 @@ describe('Booking Calendar class', () => {
 
     describe("Generics test", () => {
         beforeEach(() => {
-            calendar = new BookingCalendar('es', 'key', 'container');
+            calendar = new Calendar('es', 'key', 'container');
         });
 
         describe("setMonthStructure function", () => {
