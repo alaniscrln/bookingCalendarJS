@@ -1,6 +1,6 @@
 import { lang as langMonths } from './lang/months';
 import { lang as langDays } from './lang/days';
-import { DayI } from './Interfaces/DayI';
+import { Day } from './Interfaces/Day';
 import { Language } from './Language';
 
 export class Calendar {
@@ -31,7 +31,7 @@ export class Calendar {
      daysName: string[] = []; 
 
     /**
-     * key {string} Google Calendar API KEY
+     * @param key {string} Google Calendar API KEY
      */
     constructor(lang: Language, key: string) {
         this.lang = lang;
@@ -42,67 +42,9 @@ export class Calendar {
         this.currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
     }
 
-    
-    // /**
-    //  * Event to change the month by clicking the next or previous buttons
-    //  * isNext {boolean} Indicates in which direction the month is going to be changed,
-    //  * true = next, false = previous.
-    //  */
-    // changeMonthEvent(isNext: boolean) {
-    //     isNext ? this.setNextMonth() : this.setPreviousMonth(); // logica
-    //     this.setCalendarMonthElement();
-    //     this.fillCalendarDaysElement();
-    // }
-    
-
-    // /**
-    //  * Create the element with the name of the days
-    //  */
-    // createDaysNameElement() {
-    //     let header: HTMLElement = document.getElementById("calendar-header");
-    //     let daysContainer: HTMLElement = document.createElement("div");
-    //     daysContainer.setAttribute("id", "days");
-    //     this.getDaysName().forEach(name => {
-    //         const cell: HTMLElement = document.createElement("div");
-    //         cell.classList.add('cell');
-    //         cell.innerHTML = name;
-    //         daysContainer.appendChild(cell);
-    //     });
-    //     header.appendChild(daysContainer);
-    // }
-
-    // /**
-    //  * Set the month name in the calendar element
-    //  */
-    // setCalendarMonthElement() {
-    //     const currentMonth: HTMLElement = document.createElement('p');
-    //     currentMonth.setAttribute("id", "current-month");
-    //     currentMonth.innerHTML = this.getMonthName(this.currentDate.getMonth()) + " " + this.currentDate.getFullYear();
-    //     this.monthNameContainer.innerHTML = currentMonth.innerHTML;
-    // }
-
-    // /**
-    //  * Fill calendar with all the days
-    //  */
-    // fillCalendarDaysElement() { // logica
-    //     this.daysContainer.innerHTML = "";
-    //     let today = new Date();
-    //     this.setMonthStructure().forEach(day => {
-    //         const cell: HTMLElement = document.createElement("div");
-    //         cell.innerHTML = (day?.day) ? day.day : "";
-    //         (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
-    //         if(day?.day && parseInt(day.day) < today.getDate()
-    //         && today.getMonth() == this.currentDate.getMonth()
-    //         && today.getFullYear() == this.currentDate.getFullYear()){
-    //             cell.classList.add("cell_disabled");
-    //         }
-    //         this.daysContainer.appendChild(cell);
-    //     });
-    // }
-
     /**
      * Get names of months
-     * return an array of months
+     * @returns an array of months
      */
     getMonthsName(): string[] {
         return this.monthsName;
@@ -110,8 +52,8 @@ export class Calendar {
 
     /**
      * Get the name of a month indicated by number
-     * month {number} Number of a month, starting from 0
-     * return the requested month name
+     * @param month {number} Number of a month, starting from 0
+     * @returns the requested month name
      */
     getMonthName(): string {
         let month: number = this.currentDate.getMonth();
@@ -128,7 +70,7 @@ export class Calendar {
 
     /**
      * Get initial letter of the days
-     * return an array of days
+     * @returns an array of days
      */
     getDaysName(): string[] {
         return this.daysName;
@@ -136,8 +78,8 @@ export class Calendar {
 
     /**
      * Get the name of a day indicated by number
-     * day {number} Number of a day of the week, starting from 0
-     * return the requested day name
+     * @param day {number} Number of a day of the week, starting from 0
+     * @returns the requested day name
      */
     getDayName(day: number): string {
         if (day >= this.daysName.length) {
@@ -148,9 +90,9 @@ export class Calendar {
 
     /**
      * Get the number of days of a month
-     * month {number} Number of the month, starting from 1, which we want to know how many days does it have
-     * year {number} Number of the year
-     * return the number of days that the requested month has
+     * @param month {number} Number of the month, starting from 1, which we want to know how many days does it have
+     * @param year {number} Number of the year
+     * @returns the number of days that the requested month has
      */
     getMonthDays(): number {
         let month: number = this.currentDate.getMonth();
@@ -160,7 +102,7 @@ export class Calendar {
 
     /**
      * Get the first day of the month as a number
-     * return the number of the day, starting from 0 as Sunday
+     * @returns the number of the day, starting from 0 as Sunday
      */
     getFirstDayOfMonth(): number {
         return this.currentDate.getDay();
@@ -168,31 +110,29 @@ export class Calendar {
 
     /**
      * Set the month structure
-     * date {Date} date
-     * return an array with the structure of the month
+     * @param date {Date} date
+     * @returns an array with the structure of the month
      */
-    setMonthStructure(): DayI[] {
+    setMonthStructure(): Day[] {
         const blankSpaces: number = this.getFirstDayOfMonth();
         const monthDays: number = this.getMonthDays();
-        let monthStructure: DayI[] = new Array(blankSpaces);
+        let monthStructure: Day[] = new Array(blankSpaces);
         monthStructure.fill(null, 0, blankSpaces);
-        let days: DayI[] = Array.from({ length: monthDays }, (_, index) => ({ day: index + 1 + "" } as DayI));
+        let days: Day[] = Array.from({ length: monthDays }, (_, index) => ({ day: index + 1 + "" } as Day));
         monthStructure = monthStructure.concat(days);
         return monthStructure;
     }
 
-    
-
     /**
      * Set the currentDate to the indicated date
-     * date {Date} date
+     * @param date {Date} date
      */
     changeDate(date: Date) {
         this.currentDate = new Date(date.getFullYear(), date.getMonth(), 1);
     }
 
     /**
-     * 
+     * Changes month according to the 'isNext' param
      * @returns 
      */
     changeMonth(isNext: boolean){
@@ -200,7 +140,7 @@ export class Calendar {
     }
 
     /**
-     * 
+     * @returns currentDate
      */
     getCurrentDate(): Date{
         return this.currentDate;
@@ -221,5 +161,17 @@ export class Calendar {
      */
     setNextMonth() {
         this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+    }
+
+    /**
+     * 
+     * @param day {Day}
+     * @param today {Date}
+     * @returns If the day is before today 
+     */
+    isDayBeforeToday(day: Day, today: Date){
+        return day?.day && parseInt(day.day) < today.getDate()
+        && today.getMonth() == this.getCurrentDate().getMonth()
+        && today.getFullYear() == this.getCurrentDate().getFullYear()
     }
 }

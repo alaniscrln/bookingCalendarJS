@@ -32,9 +32,9 @@ export class BookingCalendar {
     daysContainer: HTMLElement;
 
     /**
-     * lang {es | en} Calendar language
-     * key {string} Google Calendar API KEY
-     * idContainer {string} Container ID where the calendar is going to be displayed
+     * @param lang {es | en} Calendar language
+     * @param key {string} Google Calendar API KEY
+     * @param idContainer {string} Container ID where the calendar is going to be displayed
      */
     constructor(lang: Language = 'en', key: string, idContainer: string) {
         this._calendar = new Calendar(lang ,"key");
@@ -56,6 +56,22 @@ export class BookingCalendar {
     }
 
     /**
+     * Create the element with the name of the days
+     */
+    createDaysNameElement() {
+        let header: HTMLElement = document.getElementById("calendar-header");
+        let daysContainer: HTMLElement = document.createElement("div");
+        daysContainer.setAttribute("id", "days");
+        this._calendar.getDaysName().forEach(name => {
+            const cell: HTMLElement = document.createElement("div");
+            cell.classList.add('cell');
+            cell.innerHTML = name;
+            daysContainer.appendChild(cell);
+        });
+        header.appendChild(daysContainer);
+    }
+
+    /**
      * Setting the header with the previous and next buttons and the month
      */
      createHeader() {
@@ -65,7 +81,7 @@ export class BookingCalendar {
         // Previous Button
         let btnPreviousMonth: HTMLElement = document.createElement("button");
         btnPreviousMonth.innerHTML = "<";
-        btnPreviousMonth.addEventListener('click', () => this.chageMonthEvent(false));
+        btnPreviousMonth.addEventListener('click', () => this.changeMonthEvent(false));
         header.appendChild(btnPreviousMonth);
         //Month Name
         this.setCalendarMonthElement();
@@ -73,7 +89,7 @@ export class BookingCalendar {
         // Next Button
         let btnNextMonth: HTMLElement = document.createElement("button");
         btnNextMonth.innerHTML = ">";
-        btnNextMonth.addEventListener('click', () => this.chageMonthEvent(true));
+        btnNextMonth.addEventListener('click', () => this.changeMonthEvent(true));
         header.appendChild(btnNextMonth);
 
         this.container.appendChild(header);
@@ -91,7 +107,7 @@ export class BookingCalendar {
 
     /**
      * Event to change the month by clicking the next or previous buttons
-     * isNext {boolean} Indicates in which direction the month is going to be changed,
+     * @param isNext {boolean} Indicates in which direction the month is going to be changed,
      * true = next, false = previous.
      */
      changeMonthEvent(isNext: boolean) {
@@ -106,15 +122,14 @@ export class BookingCalendar {
      fillCalendarDaysElement() { // logica
         this.daysContainer.innerHTML = "";
         let today = new Date();
-        this.setMonthStructure().forEach(day => {
+        this._calendar.setMonthStructure().forEach(day => {
             const cell: HTMLElement = document.createElement("div");
             cell.innerHTML = (day?.day) ? day.day : "";
             (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
-            if(day?.day && parseInt(day.day) < today.getDate()
-            && today.getMonth() == this.currentDate.getMonth()
-            && today.getFullYear() == this.currentDate.getFullYear()){
+
+            if(this._calendar.isDayBeforeToday(day, today))
                 cell.classList.add("cell_disabled");
-            }
+
             this.daysContainer.appendChild(cell);
         });
     }

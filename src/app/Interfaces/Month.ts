@@ -1,4 +1,4 @@
-export interface MonthI {
+export interface Month{
     name: string,
     available?: boolean,
     month_number: number
