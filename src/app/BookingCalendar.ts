@@ -1,8 +1,9 @@
 import { Calendar } from './Calendar';
-import { lang as langMonths } from './lang/months';
-import { lang as langDays } from './lang/days';
-import { Language } from './Language';
 
+import { Language } from './Language';
+import {api} from './ApiCalendar';
+
+console.log(api);
 
 export class BookingCalendar {
 
@@ -10,11 +11,6 @@ export class BookingCalendar {
      * 
      */
     private _calendar: Calendar;
-
-    /**
-     * Language in which the calendar is going to be displayed
-     */
-    lang: Language;
 
     /**
      * Main container
@@ -38,7 +34,6 @@ export class BookingCalendar {
      */
     constructor(lang: Language = 'en', key: string, idContainer: string) {
         this._calendar = new Calendar(lang ,"key");
-        this.lang = lang;
         this.container = document.getElementById(idContainer);
         this.monthNameContainer = document.createElement("span");
         this.daysContainer = document.createElement("div");
@@ -53,6 +48,7 @@ export class BookingCalendar {
         this.createDaysNameElement();
         this.container.appendChild(this.daysContainer);
         this.fillCalendarDaysElement();
+        console.log(api);
     }
 
     /**
@@ -119,12 +115,12 @@ export class BookingCalendar {
     /**
      * Fill calendar with all the days
      */
-     fillCalendarDaysElement() { // logica
+     fillCalendarDaysElement() { 
         this.daysContainer.innerHTML = "";
         let today = new Date();
         this._calendar.setMonthStructure().forEach(day => {
             const cell: HTMLElement = document.createElement("div");
-            cell.innerHTML = (day?.day) ? day.day : "";
+            cell.innerHTML = this._calendar.getDayDigit(day);
             (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
 
             if(this._calendar.isDayBeforeToday(day, today))

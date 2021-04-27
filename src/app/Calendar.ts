@@ -118,7 +118,7 @@ export class Calendar {
         const monthDays: number = this.getMonthDays();
         let monthStructure: Day[] = new Array(blankSpaces);
         monthStructure.fill(null, 0, blankSpaces);
-        let days: Day[] = Array.from({ length: monthDays }, (_, index) => ({ day: index + 1 + "" } as Day));
+        let days: Day[] = Array.from({ length: monthDays }, (_, index) => ({ digit: index + 1 + "" } as Day));
         monthStructure = monthStructure.concat(days);
         return monthStructure;
     }
@@ -170,8 +170,12 @@ export class Calendar {
      * @returns If the day is before today 
      */
     isDayBeforeToday(day: Day, today: Date){
-        return day?.day && parseInt(day.day) < today.getDate()
+        return day?.digit && parseInt(day.digit) < today.getDate()
         && today.getMonth() == this.getCurrentDate().getMonth()
         && today.getFullYear() == this.getCurrentDate().getFullYear()
+    }
+
+    getDayDigit(day: Day):string{
+        return (day?.digit) ? day.digit : "";
     }
 }

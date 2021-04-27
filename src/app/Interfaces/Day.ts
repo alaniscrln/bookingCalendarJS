@@ -1,5 +1,5 @@
 export interface Day{
-    day: string;
+    digit: string;
     available?: boolean;
     hours?: string[];
 }
