@@ -77,7 +77,7 @@ export class BookingCalendar {
 
         // Previous Button
         let btnPreviousMonth: HTMLElement = document.createElement("button");
-        btnPreviousMonth.innerHTML = '<span class="material-icons-outlined">arrow_back_ios</span>';
+        btnPreviousMonth.innerHTML = '<i class="fas fa-angle-left fa-2x"></i>';
         btnPreviousMonth.addEventListener('click', () => this.changeMonthEvent(false));
         header.appendChild(btnPreviousMonth);
         //Month Name
@@ -85,7 +85,7 @@ export class BookingCalendar {
         header.appendChild(this.monthNameContainer);
         // Next Button
         let btnNextMonth: HTMLElement = document.createElement("button");
-        btnNextMonth.innerHTML ='<i class="fas fa-chevron-right"></i>';
+        btnNextMonth.innerHTML ='<i class="fas fa-angle-right fa-2x"></i>';
         btnNextMonth.addEventListener('click', () => this.changeMonthEvent(true));
         header.appendChild(btnNextMonth);
 
