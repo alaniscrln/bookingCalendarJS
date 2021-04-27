@@ -1,9 +1,6 @@
 import { Calendar } from './Calendar';
 
 import { Language } from './Language';
-import {api} from './ApiCalendar';
-
-console.log(api);
 
 export class BookingCalendar {
 
@@ -23,6 +20,11 @@ export class BookingCalendar {
     monthNameContainer: HTMLElement;
 
     /**
+     * Days name container
+     */
+    daysNameContainer: HTMLElement;
+
+    /**
      * Days container
      */
     daysContainer: HTMLElement;
@@ -38,6 +40,8 @@ export class BookingCalendar {
         this.monthNameContainer = document.createElement("span");
         this.daysContainer = document.createElement("div");
         this.daysContainer.setAttribute("id", "days-container");
+        this.daysNameContainer = document.createElement("div");
+        this.daysNameContainer.setAttribute("id", "days-name-container");
     }
 
     /**
@@ -48,23 +52,19 @@ export class BookingCalendar {
         this.createDaysNameElement();
         this.container.appendChild(this.daysContainer);
         this.fillCalendarDaysElement();
-        console.log(api);
     }
 
     /**
      * Create the element with the name of the days
      */
     createDaysNameElement() {
-        let header: HTMLElement = document.getElementById("calendar-header");
-        let daysContainer: HTMLElement = document.createElement("div");
-        daysContainer.setAttribute("id", "days");
         this._calendar.getDaysName().forEach(name => {
             const cell: HTMLElement = document.createElement("div");
             cell.classList.add('cell');
             cell.innerHTML = name;
-            daysContainer.appendChild(cell);
+            this.daysNameContainer.appendChild(cell);
         });
-        header.appendChild(daysContainer);
+        this.container.appendChild(this.daysNameContainer);
     }
 
     /**
@@ -74,9 +74,10 @@ export class BookingCalendar {
         // Header
         let header: HTMLElement = document.createElement("div");
         header.setAttribute("id", "calendar-header");
+
         // Previous Button
         let btnPreviousMonth: HTMLElement = document.createElement("button");
-        btnPreviousMonth.innerHTML = "<";
+        btnPreviousMonth.innerHTML = '<span class="material-icons-outlined">arrow_back_ios</span>';
         btnPreviousMonth.addEventListener('click', () => this.changeMonthEvent(false));
         header.appendChild(btnPreviousMonth);
         //Month Name
@@ -84,7 +85,7 @@ export class BookingCalendar {
         header.appendChild(this.monthNameContainer);
         // Next Button
         let btnNextMonth: HTMLElement = document.createElement("button");
-        btnNextMonth.innerHTML = ">";
+        btnNextMonth.innerHTML ='<i class="fas fa-chevron-right"></i>';
         btnNextMonth.addEventListener('click', () => this.changeMonthEvent(true));
         header.appendChild(btnNextMonth);
 

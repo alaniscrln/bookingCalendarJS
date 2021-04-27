@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: "development",
   entry: './src/index.ts',
+  watch: true,
   module: {
     rules: [{
         test: /\.ts?$/,
@@ -35,11 +36,6 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
-    /*
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].[chunkhash].chunk.js',
-        path: path.resolve(__dirname, 'css'),
-        publicPath: "/css" */
   },
 
   plugins: [

@@ -1,10 +1,15 @@
 @import "./colours";
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
 .container {
     font-family: Raleway, sans-serif;
 }
 
-#calendar-header {
+i{
+    color: #000;
+}
+
+#calendar-header, #days-name-container {
     text-align: center;
     background: $header-color;
     color: #fff;
@@ -14,7 +19,7 @@
     font-weight: 700;
     text-transform: uppercase;
     display:flex;
-    #days .cell {
+    .cell {
         background: $header-color;
         color: #fff;
         flex-wrap: wrap;
