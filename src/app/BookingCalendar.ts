@@ -52,6 +52,7 @@ export class BookingCalendar {
         this.createDaysNameElement();
         this.container.appendChild(this.daysContainer);
         this.fillCalendarDaysElement();
+        this.togglePreviousButton();
     }
 
     /**
@@ -76,7 +77,10 @@ export class BookingCalendar {
         header.setAttribute("id", "calendar-header");
 
         // Previous Button
-        let btnPreviousMonth: HTMLElement = document.createElement("button");
+        let btnPreviousMonth: HTMLButtonElement = document.createElement("button");
+        btnPreviousMonth.setAttribute("id", "btn-previous-calendar");
+        
+              
         btnPreviousMonth.innerHTML = '<i class="fas fa-angle-left fa-2x"></i>';
         btnPreviousMonth.addEventListener('click', () => this.changeMonthEvent(false));
         header.appendChild(btnPreviousMonth);
@@ -99,7 +103,7 @@ export class BookingCalendar {
         const currentMonth: HTMLElement = document.createElement('p');
         currentMonth.setAttribute("id", "current-month");
         currentMonth.innerHTML = this._calendar.getMonthName() + " " + this._calendar.getFullYear();
-        this.monthNameContainer.innerHTML = currentMonth.innerHTML;
+        this.monthNameContainer.innerHTML = currentMonth.innerHTML;       
     }
 
     /**
@@ -111,6 +115,7 @@ export class BookingCalendar {
         this._calendar.changeMonth(isNext);
         this.setCalendarMonthElement();
         this.fillCalendarDaysElement();
+        this.togglePreviousButton();
     }
 
     /**
@@ -129,6 +134,17 @@ export class BookingCalendar {
 
             this.daysContainer.appendChild(cell);
         });
+    }
+
+    togglePreviousButton(){
+        let btnPreviousMonth = document.getElementById('btn-previous-calendar') as HTMLButtonElement;
+        if(this._calendar.isMonthEqualsTodaysMonth()){
+            btnPreviousMonth.disabled = true;
+            console.log("entra");
+        }else{
+            btnPreviousMonth.disabled = false;
+            console.log("no entra");
+        }
     }
 
 }

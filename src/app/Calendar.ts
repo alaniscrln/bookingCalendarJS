@@ -175,6 +175,10 @@ export class Calendar {
         && today.getFullYear() == this.getCurrentDate().getFullYear()
     }
 
+    isMonthEqualsTodaysMonth(){
+        return this.getCurrentDate().getMonth() == new Date().getMonth() && this.getCurrentDate().getFullYear() == new Date().getFullYear();
+    }
+
     getDayDigit(day: Day):string{
         return (day?.digit) ? day.digit : "";
     }

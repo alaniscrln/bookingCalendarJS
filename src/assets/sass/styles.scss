@@ -6,7 +6,8 @@
 }
 
 
-#calendar-header, #days-name-container {
+#calendar-header,
+#days-name-container {
     align-items: center;
     text-align: center;
     background: $header-color;
@@ -16,40 +17,54 @@
     line-height: 20px;
     font-weight: 700;
     text-transform: uppercase;
-    display:flex;
+    display: flex;
     padding-top: 0.6rem;
+
     .cell {
         background: $header-color;
         color: #fff;
         flex-wrap: wrap;
     }
-    button{
+
+    button {
         background: transparent;
         border: 0;
-        outline:none;
+        outline: none;
         cursor: pointer;
-        i{
+
+        i {
             color: #fff;
         }
-        i:hover{
+
+        i:hover {
             opacity: .7;
         }
     }
-    button:nth-child(1){
-        i{
+
+    button:nth-child(1) {
+        i {
             float: left;
             padding-left: 2rem;
         }
     }
-    button:nth-child(3){
-        i{
+
+    button:nth-child(3) {
+        i {
             float: right;
             padding-right: 2rem;
         }
     }
+
+    #btn-previous-calendar:disabled {
+        cursor: default;
+        i {
+            opacity: .5;
+            
+        }
+    }
 }
 
-#calendar-header :is(button,span):nth-child(-n+3) {
+#calendar-header :is(button, span):nth-child(-n+3) {
     flex: 1 3 35%;
 }
 
@@ -76,7 +91,7 @@
         background-color: #eee;
     }
 
-    .cell_disabled{
+    .cell_disabled {
         background: #ddd;
         cursor: default;
     }
@@ -91,4 +106,3 @@
     text-align: center;
     width: calc(100% / 7);
 }
-
