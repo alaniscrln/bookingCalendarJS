@@ -113,3 +113,46 @@
     border-color: $primary-bg !important;
     font-weight: bold;
 }
+
+#hours-container{
+    display: inline-block;
+    min-width: 25%;
+    vertical-align: top;
+    margin-left: 1rem;
+    a.hour{
+        display: block;
+        float: left;
+        font-size: 14px;
+        width: 21%;
+        color: #0c1827;
+        line-height: 18px;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px 0;
+        margin: 8px 4% 0 0;
+        border-radius: 4px;
+        background: #eaeaea;
+        cursor: pointer;
+    }
+    a.hour:hover{
+        background: $primary-bg;
+        color: $primary-text;
+    }
+}
+#calendar-container{
+    display: inline-block;
+    min-width: 70%;
+}
+
+@media only screen and (max-width: 576px)  {
+    #calendar-container{
+        width: 100%;
+    }
+    #hours-container{
+        width: 100%;
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+    }
+}
+
+

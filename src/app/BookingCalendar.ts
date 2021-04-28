@@ -36,6 +36,11 @@ export class BookingCalendar {
     daysContainer: HTMLElement;
 
     /**
+     * Calendar container
+     */
+    calendarContainer: HTMLElement;
+
+    /**
      * @param lang {es | en} Calendar language
      * @param key {string} Google Calendar API KEY
      * @param idContainer {string} Container ID where the calendar is going to be displayed
@@ -49,6 +54,8 @@ export class BookingCalendar {
         this.daysContainer.setAttribute("id", "days-container");
         this.daysNameContainer = document.createElement("div");
         this.daysNameContainer.setAttribute("id", "days-name-container");
+        this.calendarContainer = document.createElement("div");
+        this.calendarContainer.setAttribute("id", "calendar-container");
     }
 
     /**
@@ -57,8 +64,9 @@ export class BookingCalendar {
     init() {
         this.createHeader();
         this.createDaysNameElement();
-        this.container.appendChild(this.daysContainer);
+        this.calendarContainer.appendChild(this.daysContainer);
         this.fillCalendarDaysElement();
+        this.container.appendChild(this.calendarContainer)
         this.togglePreviousButton();
         this.container.appendChild(this._bookingList.get());
         this.setBookingList();
@@ -74,7 +82,7 @@ export class BookingCalendar {
             cell.innerHTML = name;
             this.daysNameContainer.appendChild(cell);
         });
-        this.container.appendChild(this.daysNameContainer);
+        this.calendarContainer.appendChild(this.daysNameContainer);
     }
 
     /**
@@ -100,7 +108,7 @@ export class BookingCalendar {
         btnNextMonth.addEventListener('click', () => this.changeMonthEvent(true));
         header.appendChild(btnNextMonth);
 
-        this.container.appendChild(header);
+        this.calendarContainer.appendChild(header);
     }
 
     /**
@@ -183,7 +191,7 @@ export class BookingCalendar {
      * 
      */
     setBookingList(){
-        let day : Day = {digit: '1', hours: ['12:30', '13:00']};
+        let day : Day = {digit: '1', hours: ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00']};
         this._bookingList.setHours(day);
     }
 

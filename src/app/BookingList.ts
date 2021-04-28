@@ -9,6 +9,7 @@ export class BookingList {
 
     constructor() {
         this.listContainer = document.createElement("div");
+        this.listContainer.setAttribute('id', 'hours-container');
     }
 
     /**
@@ -25,7 +26,7 @@ export class BookingList {
      */
     setHours(day: Day): void {
         day.hours.forEach(hour => {
-            let hourBtn = document.createElement("button");
+            let hourBtn = document.createElement("a");
             hourBtn.classList.add('hour');
             hourBtn.innerHTML = hour;
             this.listContainer.appendChild(hourBtn);
