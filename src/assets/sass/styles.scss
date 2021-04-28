@@ -106,3 +106,9 @@
     text-align: center;
     width: calc(100% / 7);
 }
+
+.active{
+    background: $primary-bg !important ;
+    color: $primary-text;
+    font-weight: bold;
+}

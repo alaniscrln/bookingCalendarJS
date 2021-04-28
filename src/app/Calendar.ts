@@ -169,14 +169,24 @@ export class Calendar {
      * @param today {Date}
      * @returns If the day is before today 
      */
-    isDayBeforeToday(day: Day, today: Date){
+    isDayBeforeToday(day: Day){
+        const today = new Date();
         return day?.digit && parseInt(day.digit) < today.getDate()
         && today.getMonth() == this.getCurrentDate().getMonth()
-        && today.getFullYear() == this.getCurrentDate().getFullYear()
+        && today.getFullYear() == this.getCurrentDate().getFullYear();
+    }
+
+    isToday(day: Day){
+        const today = new Date();
+        return day?.digit && parseInt(day.digit) == today.getDate()
+        && this.getCurrentDate().getMonth() == today.getMonth()
+        && this.getCurrentDate().getFullYear() == today.getFullYear()
+        
     }
 
     isMonthEqualsTodaysMonth(){
-        return this.getCurrentDate().getMonth() == new Date().getMonth() && this.getCurrentDate().getFullYear() == new Date().getFullYear();
+        return this.getCurrentDate().getMonth() == new Date().getMonth() 
+        && this.getCurrentDate().getFullYear() == new Date().getFullYear();
     }
 
     getDayDigit(day: Day):string{

@@ -124,18 +124,26 @@ export class BookingCalendar {
      */
     fillCalendarDaysElement() {
         this.daysContainer.innerHTML = "";
-        let today = new Date();
+
         this._calendar.setMonthStructure().forEach(day => {
             const cell: HTMLElement = document.createElement("div");
             cell.innerHTML = this._calendar.getDayDigit(day);
             (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
-            if (this._calendar.isDayBeforeToday(day, today))
+            if (this._calendar.isDayBeforeToday(day))
                 cell.classList.add("cell_disabled");
-            const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
-            cells.forEach(cell => {
-                cell.addEventListener('click', this.selectedDay);
-            });
+            if(this._calendar.isToday(day)){
+                cell.classList.add('active');
+            }
             this.daysContainer.appendChild(cell);
+        });
+        
+        if(!this._calendar.isMonthEqualsTodaysMonth()){
+            document.querySelectorAll('#days-container .cell:not(.cell_disabled)')[0]
+            .classList.add('active');
+        }
+        const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
+        cells.forEach(cell => {
+            cell.addEventListener('click', this.selectedDay);
         });
     }
 
