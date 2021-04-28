@@ -11,7 +11,7 @@
     align-items: center;
     text-align: center;
     background: $header-color;
-    color: #fff;
+    color: $primary-text;
     width: 100%;
     font-size: 18px;
     line-height: 20px;
@@ -22,7 +22,7 @@
 
     .cell {
         background: $header-color;
-        color: #fff;
+        color: $primary-text;
         flex-wrap: wrap;
     }
 
@@ -33,7 +33,7 @@
         cursor: pointer;
 
         i {
-            color: #fff;
+            color: $primary-text;
         }
 
         i:hover {
@@ -69,7 +69,7 @@
 }
 
 #days-container {
-    border: #CCCCCC 1px solid;
+    border: $border 1px solid;
 
     .cell_empty {
         width: calc(100% / 7);
@@ -78,28 +78,28 @@
     }
 
     .cell {
-        border: #CCCCCC 1px solid;
+        border: $border 1px solid;
         cursor: pointer;
     }
 
     .cell:active:not(.cell_disabled) {
-        color: white;
-        background-color: #0e717f;
+        color: $primary-text;
+        background-color: $primary-bg;
     }
 
     .cell:hover:not(.cell_disabled) {
-        background-color: #eee;
+        background-color: $cell-hover-bg;
     }
 
     .cell_disabled {
-        background: #ddd;
+        background: $cell-disabled-bg;
         cursor: default;
     }
 }
 
 .cell {
-    background: #fff;
-    color: #000;
+    background: $cell-bg;
+    color: $cell-text;
     box-sizing: border-box;
     display: inline-block;
     padding: 10px 0;
