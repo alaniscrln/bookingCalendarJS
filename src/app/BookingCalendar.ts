@@ -1,14 +1,19 @@
-import { notebooks } from 'googleapis/build/src/apis/notebooks';
 import { Calendar } from './Calendar';
-
+import { BookingList } from './BookingList';
 import { Language } from './Language';
+import { Day } from './Interfaces/Day';
 
 export class BookingCalendar {
 
     /**
-     * 
+     * Calendar object (logic)
      */
     private _calendar: Calendar;
+
+    /**
+     * BookingList object (view)
+     */
+    private _bookingList: BookingList;
 
     /**
      * Main container
@@ -37,6 +42,7 @@ export class BookingCalendar {
      */
     constructor(lang: Language = 'en', key: string, idContainer: string) {
         this._calendar = new Calendar(lang, "key");
+        this._bookingList = new BookingList();
         this.container = document.getElementById(idContainer);
         this.monthNameContainer = document.createElement("span");
         this.daysContainer = document.createElement("div");
@@ -54,6 +60,8 @@ export class BookingCalendar {
         this.container.appendChild(this.daysContainer);
         this.fillCalendarDaysElement();
         this.togglePreviousButton();
+        this.container.appendChild(this._bookingList.get());
+        this.setBookingList();
     }
 
     /**
@@ -80,8 +88,6 @@ export class BookingCalendar {
         // Previous Button
         let btnPreviousMonth: HTMLButtonElement = document.createElement("button");
         btnPreviousMonth.setAttribute("id", "btn-previous-calendar");
-
-
         btnPreviousMonth.innerHTML = '<i class="fas fa-angle-left fa-2x"></i>';
         btnPreviousMonth.addEventListener('click', () => this.changeMonthEvent(false));
         header.appendChild(btnPreviousMonth);
@@ -131,22 +137,26 @@ export class BookingCalendar {
             (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
             if (this._calendar.isDayBeforeToday(day))
                 cell.classList.add("cell_disabled");
-            if(this._calendar.isToday(day)){
+            if (this._calendar.isToday(day)) {
                 cell.classList.add('active');
             }
             this.daysContainer.appendChild(cell);
         });
-        
-        if(!this._calendar.isMonthEqualsTodaysMonth()){
+
+        if (!this._calendar.isMonthEqualsTodaysMonth()) {
             document.querySelectorAll('#days-container .cell:not(.cell_disabled)')[0]
-            .classList.add('active');
+                .classList.add('active');
         }
+
         const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
         cells.forEach(cell => {
             cell.addEventListener('click', this.selectedDay);
         });
     }
 
+    /**
+     * Changes the availability of the previous button depending on the selected month
+     */
     togglePreviousButton() {
         let btnPreviousMonth = document.getElementById('btn-previous-calendar') as HTMLButtonElement;
         if (this._calendar.isMonthEqualsTodaysMonth()) {
@@ -156,6 +166,10 @@ export class BookingCalendar {
         }
     }
 
+    /**
+     * Adds or removes 'active' class to the selected day
+     * @param e Event
+     */
     selectedDay(e: InputEvent) {
         const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
         cells.forEach(cell => {
@@ -163,6 +177,14 @@ export class BookingCalendar {
         });
         const selectedBtn = (e.target as HTMLButtonElement);
         selectedBtn.classList.add('active');
+    }
+
+    /**
+     * 
+     */
+    setBookingList(){
+        let day : Day = {digit: '1', hours: ['12:30', '13:00']};
+        this._bookingList.setHours(day);
     }
 
 }

@@ -8,7 +8,7 @@ export class Calendar {
     /**
      * Language in which the calendar is going to be displayed
      */
-     lang: string;
+    lang: string;
 
     /**
      * Google API Calendar Key
@@ -19,16 +19,16 @@ export class Calendar {
      * Current date
      */
     private currentDate: Date;
-    
+
     /**
      * Names of the months
      */
-     monthsName: string[] = [];
+    monthsName: string[] = [];
 
-     /**
-      * Names of the days
-      */
-     daysName: string[] = []; 
+    /**
+     * Names of the days
+     */
+    daysName: string[] = [];
 
     /**
      * @param key {string} Google Calendar API KEY
@@ -64,7 +64,7 @@ export class Calendar {
      * 
      * @returns 
      */
-    getFullYear(){
+    getFullYear() {
         return this.currentDate.getFullYear();
     }
 
@@ -135,23 +135,23 @@ export class Calendar {
      * Changes month according to the 'isNext' param
      * @returns 
      */
-    changeMonth(isNext: boolean){
+    changeMonth(isNext: boolean) {
         isNext ? this.setNextMonth() : this.setPreviousMonth();
     }
 
     /**
      * @returns currentDate
      */
-    getCurrentDate(): Date{
+    getCurrentDate(): Date {
         return this.currentDate;
     }
 
     /**
      * Set the currentDate to the previous month
      */
-     setPreviousMonth() {
+    setPreviousMonth() {
         const today = new Date();
-        if(today < this.currentDate){
+        if (today < this.currentDate) {
             this.currentDate.setMonth(this.currentDate.getMonth() - 1);
         }
     }
@@ -164,32 +164,47 @@ export class Calendar {
     }
 
     /**
-     * 
+     * Check if the day id before today
      * @param day {Day}
      * @param today {Date}
      * @returns If the day is before today 
      */
-    isDayBeforeToday(day: Day){
+    isDayBeforeToday(day: Day) {
         const today = new Date();
         return day?.digit && parseInt(day.digit) < today.getDate()
-        && today.getMonth() == this.getCurrentDate().getMonth()
-        && today.getFullYear() == this.getCurrentDate().getFullYear();
+            && today.getMonth() == this.getCurrentDate().getMonth()
+            && today.getFullYear() == this.getCurrentDate().getFullYear();
     }
 
-    isToday(day: Day){
+    /**
+     * Check if the day is today
+     * @param day {Day} with which will be checked if it is equals today
+     * @returns true is both are today, false if not
+     */
+    isToday(day: Day) {
         const today = new Date();
         return day?.digit && parseInt(day.digit) == today.getDate()
-        && this.getCurrentDate().getMonth() == today.getMonth()
-        && this.getCurrentDate().getFullYear() == today.getFullYear()
-        
+            && this.getCurrentDate().getMonth() == today.getMonth()
+            && this.getCurrentDate().getFullYear() == today.getFullYear()
+
     }
 
-    isMonthEqualsTodaysMonth(){
-        return this.getCurrentDate().getMonth() == new Date().getMonth() 
-        && this.getCurrentDate().getFullYear() == new Date().getFullYear();
+    /**
+     * Checks if current month is equals today's month 
+     * @returns true if the current month is equals today's month, false if not
+     */
+    isMonthEqualsTodaysMonth() {
+        return this.getCurrentDate().getMonth() == new Date().getMonth()
+            && this.getCurrentDate().getFullYear() == new Date().getFullYear();
     }
 
-    getDayDigit(day: Day):string{
+    /**
+     * Know the day digit
+     * @param day {Day}
+     * @returns the digit day
+     */
+    getDayDigit(day: Day): string {
         return (day?.digit) ? day.digit : "";
     }
+
 }

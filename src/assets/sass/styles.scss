@@ -110,5 +110,6 @@
 .active{
     background: $primary-bg !important ;
     color: $primary-text;
+    border-color: $primary-bg !important;
     font-weight: bold;
 }
