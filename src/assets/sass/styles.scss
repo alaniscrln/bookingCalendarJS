@@ -10,7 +10,7 @@
 #days-name-container {
     align-items: center;
     text-align: center;
-    background: $header-color;
+    background: $primary-bg;
     color: $primary-text;
     width: 100%;
     font-size: 18px;
@@ -21,7 +21,7 @@
     padding-top: 0.6rem;
 
     .cell {
-        background: $header-color;
+        background: $primary-bg;
         color: $primary-text;
         flex-wrap: wrap;
     }

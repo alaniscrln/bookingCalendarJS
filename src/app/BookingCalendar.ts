@@ -1,3 +1,4 @@
+import { notebooks } from 'googleapis/build/src/apis/notebooks';
 import { Calendar } from './Calendar';
 
 import { Language } from './Language';
@@ -35,7 +36,7 @@ export class BookingCalendar {
      * @param idContainer {string} Container ID where the calendar is going to be displayed
      */
     constructor(lang: Language = 'en', key: string, idContainer: string) {
-        this._calendar = new Calendar(lang ,"key");
+        this._calendar = new Calendar(lang, "key");
         this.container = document.getElementById(idContainer);
         this.monthNameContainer = document.createElement("span");
         this.daysContainer = document.createElement("div");
@@ -47,7 +48,7 @@ export class BookingCalendar {
     /**
      * Initialize the calendar
      */
-     init() {
+    init() {
         this.createHeader();
         this.createDaysNameElement();
         this.container.appendChild(this.daysContainer);
@@ -71,7 +72,7 @@ export class BookingCalendar {
     /**
      * Setting the header with the previous and next buttons and the month
      */
-     createHeader() {
+    createHeader() {
         // Header
         let header: HTMLElement = document.createElement("div");
         header.setAttribute("id", "calendar-header");
@@ -79,8 +80,8 @@ export class BookingCalendar {
         // Previous Button
         let btnPreviousMonth: HTMLButtonElement = document.createElement("button");
         btnPreviousMonth.setAttribute("id", "btn-previous-calendar");
-        
-              
+
+
         btnPreviousMonth.innerHTML = '<i class="fas fa-angle-left fa-2x"></i>';
         btnPreviousMonth.addEventListener('click', () => this.changeMonthEvent(false));
         header.appendChild(btnPreviousMonth);
@@ -89,7 +90,7 @@ export class BookingCalendar {
         header.appendChild(this.monthNameContainer);
         // Next Button
         let btnNextMonth: HTMLElement = document.createElement("button");
-        btnNextMonth.innerHTML ='<i class="fas fa-angle-right fa-2x"></i>';
+        btnNextMonth.innerHTML = '<i class="fas fa-angle-right fa-2x"></i>';
         btnNextMonth.addEventListener('click', () => this.changeMonthEvent(true));
         header.appendChild(btnNextMonth);
 
@@ -99,11 +100,11 @@ export class BookingCalendar {
     /**
      * Set the month name in the calendar element
      */
-     setCalendarMonthElement() {
+    setCalendarMonthElement() {
         const currentMonth: HTMLElement = document.createElement('p');
         currentMonth.setAttribute("id", "current-month");
         currentMonth.innerHTML = this._calendar.getMonthName() + " " + this._calendar.getFullYear();
-        this.monthNameContainer.innerHTML = currentMonth.innerHTML;       
+        this.monthNameContainer.innerHTML = currentMonth.innerHTML;
     }
 
     /**
@@ -111,7 +112,7 @@ export class BookingCalendar {
      * @param isNext {boolean} Indicates in which direction the month is going to be changed,
      * true = next, false = previous.
      */
-     changeMonthEvent(isNext: boolean) {
+    changeMonthEvent(isNext: boolean) {
         this._calendar.changeMonth(isNext);
         this.setCalendarMonthElement();
         this.fillCalendarDaysElement();
@@ -121,30 +122,39 @@ export class BookingCalendar {
     /**
      * Fill calendar with all the days
      */
-     fillCalendarDaysElement() { 
+    fillCalendarDaysElement() {
         this.daysContainer.innerHTML = "";
         let today = new Date();
         this._calendar.setMonthStructure().forEach(day => {
             const cell: HTMLElement = document.createElement("div");
             cell.innerHTML = this._calendar.getDayDigit(day);
             (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
-
-            if(this._calendar.isDayBeforeToday(day, today))
+            if (this._calendar.isDayBeforeToday(day, today))
                 cell.classList.add("cell_disabled");
-
+            const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
+            cells.forEach(cell => {
+                cell.addEventListener('click', this.selectedDay);
+            });
             this.daysContainer.appendChild(cell);
         });
     }
 
-    togglePreviousButton(){
+    togglePreviousButton() {
         let btnPreviousMonth = document.getElementById('btn-previous-calendar') as HTMLButtonElement;
-        if(this._calendar.isMonthEqualsTodaysMonth()){
+        if (this._calendar.isMonthEqualsTodaysMonth()) {
             btnPreviousMonth.disabled = true;
-            console.log("entra");
-        }else{
+        } else {
             btnPreviousMonth.disabled = false;
-            console.log("no entra");
         }
+    }
+
+    selectedDay(e: InputEvent) {
+        const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
+        cells.forEach(cell => {
+            cell.classList.remove('active');
+        });
+        const selectedBtn = (e.target as HTMLButtonElement);
+        selectedBtn.classList.add('active');
     }
 
 }
