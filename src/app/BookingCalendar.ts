@@ -189,7 +189,6 @@ export class BookingCalendar {
      * @param e Event
      */
     selectedDay(e: InputEvent) {
-        console.log("jADSJdasj");
         const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
         cells.forEach(cell => {
             cell.classList.remove('active');

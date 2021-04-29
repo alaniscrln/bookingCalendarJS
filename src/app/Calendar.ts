@@ -2,8 +2,11 @@ import { lang as langMonths } from './lang/months';
 import { lang as langDays } from './lang/days';
 import { Day } from './Interfaces/Day';
 import { Language } from './Language';
+import { ApiCalendar } from './ApiCalendar';
 
 export class Calendar {
+
+    private api;
 
     /**
      * Language in which the calendar is going to be displayed
@@ -40,6 +43,7 @@ export class Calendar {
         this.daysName = langDays[lang] as string[];
         let today = new Date();
         this.currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        this.api = new ApiCalendar();
     }
 
     /**
