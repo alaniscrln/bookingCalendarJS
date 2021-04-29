@@ -1,8 +1,9 @@
 @import "./colours";
-@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
-.container {
-    font-family: Raleway, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+#container {
+    font-family: 'Raleway', sans-serif !important;
 }
 
 
@@ -155,4 +156,13 @@
     }
 }
 
-
+@media only screen and (max-width: 768px)  {
+    #calendar-container{
+        width: 100%;
+    }
+    #hours-container{
+        width: 100%;
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+    }
+}
