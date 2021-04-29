@@ -142,24 +142,34 @@ export class BookingCalendar {
         this._calendar.setMonthStructure().forEach(day => {
             const cell: HTMLElement = document.createElement("div");
             cell.innerHTML = this._calendar.getDayDigit(day);
-            (cell.innerHTML != "") ? cell.classList.add('cell') : cell.classList.add('cell_empty');
-            if (this._calendar.isDayBeforeToday(day))
+
+            if (this._calendar.isDayBeforeToday(day)) {
                 cell.classList.add("cell_disabled");
+            }
+
+            if (cell.innerHTML != "") {
+                cell.classList.add('cell');
+                if(!cell.classList.contains("cell_disabled")){
+                    cell.addEventListener('click', this.selectedDay);
+                }
+            } else {
+                cell.classList.add('cell_empty');
+            }
+
             if (this._calendar.isToday(day)) {
                 cell.classList.add('active');
             }
+
             this.daysContainer.appendChild(cell);
         });
 
+        const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
+
         if (!this._calendar.isMonthEqualsTodaysMonth()) {
-            document.querySelectorAll('#days-container .cell:not(.cell_disabled)')[0]
-                .classList.add('active');
+            cells[0].classList.add('active');
         }
 
-        const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
-        cells.forEach(cell => {
-            cell.addEventListener('click', this.selectedDay);
-        });
+
     }
 
     /**
@@ -179,6 +189,7 @@ export class BookingCalendar {
      * @param e Event
      */
     selectedDay(e: InputEvent) {
+        console.log("jADSJdasj");
         const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
         cells.forEach(cell => {
             cell.classList.remove('active');
@@ -190,8 +201,8 @@ export class BookingCalendar {
     /**
      * 
      */
-    setBookingList(){
-        let day : Day = {digit: '1', hours: ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00']};
+    setBookingList() {
+        let day: Day = { digit: '1', hours: ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00'] };
         this._bookingList.setHours(day);
     }
 
