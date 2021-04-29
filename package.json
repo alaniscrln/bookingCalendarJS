@@ -43,6 +43,8 @@
   },
   "dependencies": {
     "@googleapis/docs": "^0.2.0",
+    "@types/gapi": "0.0.39",
+    "gapi": "0.0.3",
     "googleapis": "^72.0.0"
   }
 }

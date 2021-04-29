@@ -1,21 +1,24 @@
 import { calendar_v3, google } from 'googleapis';
-
+//import gapi from 'gapi';
+ 
 export class ApiCalendar {
 
     private key = 'KEY';
     private api: calendar_v3.Calendar;
 
     constructor() {
-        const oauth2Client = new google.auth.OAuth2(
-            'YOUR_CLIENT_ID',
-            'YOUR_CLIENT_SECRET',
-            'YOUR_REDIRECT_URL'
-        );
-
-        this.api = google.calendar({
-            version: 'v3',
-            auth: this.key
-        });
+        //this.api = google.calendar('v3');
     }
 
+    async prueba() {
+        const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/bookingcalendar.lm@gmail.com/events?key=AIzaSyB76XK4q5mVGnIXz14WpftXJj-rVopXZxo', {
+            method: 'GET'
+        })
+        const calendar = await response.json()
+        console.log(calendar)
+    }
 }
+
+
+
+
