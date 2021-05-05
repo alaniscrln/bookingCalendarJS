@@ -187,14 +187,18 @@ export class BookingCalendar {
      * Adds or removes 'active' class to the selected day
      * @param e Event
      */
-    selectedDay(e: InputEvent) {
+    selectedDay = (e: InputEvent) => {
         const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
         cells.forEach(cell => {
             cell.classList.remove('active');
         });
         const selectedBtn = (e.target as HTMLButtonElement);
         selectedBtn.classList.add('active');
+        const day = selectedBtn.innerHTML as string;
+        this._calendar.setDay(day);
     }
+
+  
 
     /**
      * 

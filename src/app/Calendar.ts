@@ -38,7 +38,6 @@ export class Calendar {
         let today = new Date();
         this.currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
         this.api = new ApiCalendar();
-        this.api.prueba(today).then();
     }
 
     /**
@@ -206,6 +205,26 @@ export class Calendar {
         return (day?.digit) ? day.digit : "";
     }
 
-    
+    setDay(day: string): void {
+        const date: Date = new Date(this.currentDate.getFullYear(),
+            this.currentDate.getMonth(),
+            parseInt(day), 1)
+        this.api.get(date)
+        .then((data)=>{
+            this.setBusyHours(data);
+        }).catch((error)=>{
+            console.log(error);
+        })
+    }
+
+    setBusyHours(json: any[]): void {
+        json.forEach((item)=>{
+            let hourT = item.start.dateTime.split("T")[1].split("+")[0];
+            let hour = hourT.split(":")[0];
+            let minutes = hourT.split(":")[1];
+            hour = hour+":"+minutes;
+            console.log(hour); 
+        })
+    }
 
 }

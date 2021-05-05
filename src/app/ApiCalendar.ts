@@ -5,7 +5,8 @@ export class ApiCalendar {
     constructor() {
     }
 
-    async prueba(date: Date) {
+    async get(date: Date) {
+        console.log(date);
         const formatDate: string = date.toISOString().split('T')[0];
         const timeMin: string = endpoints.paramHourMin + formatDate + endpoints.valueHourMin;
         const timeMax: string = endpoints.paramHourMax + formatDate + endpoints.valueHourMax;
@@ -16,6 +17,7 @@ export class ApiCalendar {
         })
         const calendar = await response.json()
         console.log(calendar.items)
+        return calendar.items;
     }
 }
 
