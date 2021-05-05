@@ -38,7 +38,7 @@ export class Calendar {
         let today = new Date();
         this.currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
         this.api = new ApiCalendar();
-        this.api.prueba(this.currentDate).then();
+        this.api.prueba(today).then();
     }
 
     /**
