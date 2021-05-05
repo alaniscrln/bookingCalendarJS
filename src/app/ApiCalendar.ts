@@ -1,21 +1,17 @@
-import { calendar_v3, google } from 'googleapis';
-//import gapi from 'gapi';
- 
+import endpoints from "./config/calendar.config"
+
 export class ApiCalendar {
 
-    private key = 'KEY';
-    private api: calendar_v3.Calendar;
-
     constructor() {
-        //this.api = google.calendar('v3');
+        console.log(endpoints.userServiceUrl + endpoints.calendarId + endpoints.apiKey)
     }
 
     async prueba() {
-        const response = await fetch('https://www.googleapis.com/calendar/v3/calendars/bookingcalendar.lm@gmail.com/events?key=AIzaSyB76XK4q5mVGnIXz14WpftXJj-rVopXZxo', {
+        const response = await fetch(endpoints.listEvents, {
             method: 'GET'
         })
         const calendar = await response.json()
-        console.log(calendar)
+        console.log(calendar.items)
     }
 }
 

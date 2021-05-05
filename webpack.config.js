@@ -3,6 +3,7 @@ const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   mode: "development",
@@ -47,5 +48,8 @@ module.exports = {
       template: 'src/app/index.html',
       hash: true
     }),
+    new Dotenv({
+      path: 'src/app/config/.env',
+    })
   ]
 };
