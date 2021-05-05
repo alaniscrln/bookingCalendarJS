@@ -42,11 +42,10 @@ export class BookingCalendar {
 
     /**
      * @param lang {es | en} Calendar language
-     * @param key {string} Google Calendar API KEY
      * @param idContainer {string} Container ID where the calendar is going to be displayed
      */
-    constructor(lang: Language = 'en', key: string, idContainer: string) {
-        this._calendar = new Calendar(lang, "key");
+    constructor(lang: Language = 'en', idContainer: string) {
+        this._calendar = new Calendar(lang);
         this._bookingList = new BookingList();
         this.container = document.getElementById(idContainer);
         this.monthNameContainer = document.createElement("span");

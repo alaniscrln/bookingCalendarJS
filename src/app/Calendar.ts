@@ -14,11 +14,6 @@ export class Calendar {
     lang: string;
 
     /**
-     * Google API Calendar Key
-     */
-    private readonly key: string;
-
-    /**
      * Current date
      */
     private currentDate: Date;
@@ -36,15 +31,14 @@ export class Calendar {
     /**
      * @param key {string} Google Calendar API KEY
      */
-    constructor(lang: Language, key: string) {
+    constructor(lang: Language) {
         this.lang = lang;
-        this.key = key;
         this.monthsName = langMonths[lang] as string[];
         this.daysName = langDays[lang] as string[];
         let today = new Date();
         this.currentDate = new Date(today.getFullYear(), today.getMonth(), 1);
         this.api = new ApiCalendar();
-        this.api.prueba().then();
+        this.api.prueba(this.currentDate).then();
     }
 
     /**
@@ -211,5 +205,7 @@ export class Calendar {
     getDayDigit(day: Day): string {
         return (day?.digit) ? day.digit : "";
     }
+
+    
 
 }
