@@ -1,4 +1,4 @@
-import { Day } from "./Interfaces/Day";
+import { Day } from "./../Interfaces/Day";
 
 export class BookingList {
 
