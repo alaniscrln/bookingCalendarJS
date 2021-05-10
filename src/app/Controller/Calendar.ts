@@ -49,8 +49,7 @@ export class Calendar {
     }
 
     /**
-     * Get the name of a month indicated by number
-     * @param month {number} Number of a month, starting from 0
+     * Get the name of the month of the currentDate 
      * @returns the requested month name
      */
     getMonthName(): string {
@@ -60,7 +59,7 @@ export class Calendar {
 
     /**
      * 
-     * @returns 
+     * @returns currentDate's year 
      */
     getFullYear() {
         return this.currentDate.getFullYear();
@@ -108,7 +107,6 @@ export class Calendar {
 
     /**
      * Set the month structure
-     * @param date {Date} date
      * @returns an array with the structure of the month
      */
     setMonthStructure(): Day[] {
@@ -149,6 +147,7 @@ export class Calendar {
      */
     setPreviousMonth() {
         const today = new Date();
+        // Avoid changing to the previous month of the current month.
         if (today < this.currentDate) {
             this.currentDate.setMonth(this.currentDate.getMonth() - 1);
         }
@@ -164,7 +163,6 @@ export class Calendar {
     /**
      * Check if the day is before today
      * @param day {Day}
-     * @param today {Date}
      * @returns If the day is before today 
      */
     isDayBeforeToday(day: Day) {
@@ -184,7 +182,6 @@ export class Calendar {
         return day?.digit && parseInt(day.digit) == today.getDate()
             && this.getCurrentDate().getMonth() == today.getMonth()
             && this.getCurrentDate().getFullYear() == today.getFullYear()
-
     }
 
     /**
@@ -205,6 +202,10 @@ export class Calendar {
         return (day?.digit) ? day.digit : "";
     }
     
+    /**
+     * 
+     * @param day 
+     */
     setDay(day: string): void {
         const date: Date = new Date(this.currentDate.getFullYear(),
             this.currentDate.getMonth(),
@@ -217,6 +218,10 @@ export class Calendar {
         })
     }
 
+    /**
+     * 
+     * @param json 
+     */
     setBusyHours(json: any[]): void {
         json.forEach((item)=>{
             let hourT = item.start.dateTime.split("T")[1].split("+")[0];
