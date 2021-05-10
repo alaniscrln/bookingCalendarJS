@@ -114,10 +114,8 @@ export class BookingCalendar {
      * Set the month name in the calendar element
      */
     setCalendarMonthElement() {
-        const currentMonth: HTMLElement = document.createElement('p');
-        currentMonth.setAttribute("id", "current-month");
-        currentMonth.innerHTML = this._calendar.getMonthName() + " " + this._calendar.getFullYear();
-        this.monthNameContainer.innerHTML = currentMonth.innerHTML;
+        const currentMonth : string = this._calendar.getMonthName() + " " + this._calendar.getFullYear();
+        this.monthNameContainer.innerHTML = currentMonth;
     }
 
     /**
@@ -188,7 +186,7 @@ export class BookingCalendar {
      * @param e Event
      */
     selectedDay = (e: InputEvent) => {
-        const cells = document.querySelectorAll('#days-container .cell:not(.cell_disabled)');
+        const cells = document.querySelectorAll('#days-container .cell .active');
         cells.forEach(cell => {
             cell.classList.remove('active');
         });
