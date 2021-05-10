@@ -1,8 +1,8 @@
-import { lang as langMonths } from './lang/months';
-import { lang as langDays } from './lang/days';
-import { Day } from './Interfaces/Day';
-import { Language } from './Language';
-import { ApiCalendar } from './ApiCalendar';
+import { lang as langMonths } from './../lang/months';
+import { lang as langDays } from './../lang/days';
+import { Day } from './../Interfaces/Day';
+import { Language } from '../Pipes/Language';
+import { ApiCalendar } from '../Services/ApiCalendar';
 
 export class Calendar {
 
@@ -162,7 +162,7 @@ export class Calendar {
     }
 
     /**
-     * Check if the day id before today
+     * Check if the day is before today
      * @param day {Day}
      * @param today {Date}
      * @returns If the day is before today 
@@ -204,7 +204,7 @@ export class Calendar {
     getDayDigit(day: Day): string {
         return (day?.digit) ? day.digit : "";
     }
-
+    
     setDay(day: string): void {
         const date: Date = new Date(this.currentDate.getFullYear(),
             this.currentDate.getMonth(),

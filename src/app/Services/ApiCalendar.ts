@@ -1,4 +1,4 @@
-import endpoints from "./config/calendar.config"
+import endpoints from "../config/calendar.config"
 
 export class ApiCalendar {
 

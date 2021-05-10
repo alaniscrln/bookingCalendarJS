@@ -1,7 +1,7 @@
-import { Calendar } from './Calendar';
+import { Calendar } from '../Controller/Calendar';
 import { BookingList } from './BookingList';
-import { Language } from './Language';
-import { Day } from './Interfaces/Day';
+import { Language } from '../Pipes/Language';
+import { Day } from '../Interfaces/Day';
 
 export class BookingCalendar {
 
