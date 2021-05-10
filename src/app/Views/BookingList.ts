@@ -14,17 +14,18 @@ export class BookingList {
 
     /**
      * Get list container
-     * @returns list container
+     * @returns list container {HTMLElement} 
      */
-    get(): HTMLElement {
+    getListContainer(): HTMLElement {
         return this.listContainer;
     }
 
     /**
-     * 
+     * Creates available hours
      * @param day of which the available hours will be set
      */
     setHours(day: Day): void {
+        this.listContainer.innerHTML = '';
         day.hours.forEach(hour => {
             let hourBtn = document.createElement("a");
             hourBtn.classList.add('hour');
