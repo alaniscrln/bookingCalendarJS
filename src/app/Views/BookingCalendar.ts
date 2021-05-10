@@ -67,7 +67,7 @@ export class BookingCalendar {
         this.fillCalendarDaysElement();
         this.container.appendChild(this.calendarContainer)
         this.togglePreviousButton();
-        this.container.appendChild(this._bookingList.get());
+        this.container.appendChild(this._bookingList.getListContainer());
         this.setBookingList();
     }
 
@@ -114,7 +114,7 @@ export class BookingCalendar {
      * Set the month name in the calendar element
      */
     setCalendarMonthElement() {
-        const currentMonth : string = this._calendar.getMonthName() + " " + this._calendar.getFullYear();
+        const currentMonth: string = this._calendar.getMonthName() + " " + this._calendar.getFullYear();
         this.monthNameContainer.innerHTML = currentMonth;
     }
 
@@ -146,7 +146,7 @@ export class BookingCalendar {
 
             if (cell.innerHTML != "") {
                 cell.classList.add('cell');
-                if(!cell.classList.contains("cell_disabled")){
+                if (!cell.classList.contains("cell_disabled")) {
                     cell.addEventListener('click', this.selectedDay);
                 }
             } else {
@@ -186,7 +186,7 @@ export class BookingCalendar {
      * @param e Event
      */
     selectedDay = (e: InputEvent) => {
-        const cells = document.querySelectorAll('#days-container .cell .active');
+        const cells = document.querySelectorAll('#days-container .cell.active');
         cells.forEach(cell => {
             cell.classList.remove('active');
         });
@@ -194,15 +194,15 @@ export class BookingCalendar {
         selectedBtn.classList.add('active');
         const day = selectedBtn.innerHTML as string;
         this._calendar.setDay(day);
+        this.setBookingList(day)
     }
 
-  
-
     /**
-     * 
+     * Return available hours list
      */
-    setBookingList() {
-        let day: Day = { digit: '1', hours: ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00'] };
+    setBookingList(digit?: string) {
+        const today = new Date().getDate() + '';
+        let day: Day = { digit: (digit) ? digit : today, hours: ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00'] };
         this._bookingList.setHours(day);
     }
 
