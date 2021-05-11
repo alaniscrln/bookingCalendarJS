@@ -193,7 +193,8 @@ export class BookingCalendar {
         const selectedBtn = (e.target as HTMLButtonElement);
         selectedBtn.classList.add('active');
         const day = selectedBtn.innerHTML as string;
-        this._calendar.setDay(day);
+        // this._calendar.setDay(day);
+        console.log(day);
         this.setBookingList(day)
     }
 
@@ -203,8 +204,15 @@ export class BookingCalendar {
     setBookingList(digit?: string) {
         const today = new Date().getDate() + '';
         let day: Day = { digit: (digit) ? digit : today, hours: ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'] };
-        day = this._calendar.foo(day);
-        this._bookingList.setHours(day);
+        this._calendar.setDay(day.digit)
+            .then(result => {
+                day = this._calendar.foo(day);
+                console.log(day);
+                this._bookingList.setHours(day);
+            }).catch(error => {
+                console.log(error);
+            })
+
     }
 
 }

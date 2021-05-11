@@ -212,16 +212,19 @@ export class Calendar {
      * 
      * @param day 
      */
-    setDay(day: string): void {
+    setDay(day: string): Promise<boolean> {
         const date: Date = new Date(this.currentDate.getFullYear(),
             this.currentDate.getMonth(),
             parseInt(day), 1)
-        this.api.get(date)
+        return new Promise((resolve, reject) => {
+            this.api.get(date)
             .then((data) => {
                 this.setBusyHours(data);
+                resolve(true);
             }).catch((error) => {
-                console.log(error);
+                reject(true);
             })
+        });
     }
 
     /**
@@ -240,7 +243,7 @@ export class Calendar {
         this.busyHours = busyHours;
     }
 
-    foo(day: Day) {      
+    foo(day: Day) {
         const busyHours: string[] = this.busyHours;
         day.hours = day.hours.filter(function (val: string) {
             return busyHours.indexOf(val) == -1;
