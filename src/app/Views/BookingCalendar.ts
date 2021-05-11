@@ -202,7 +202,8 @@ export class BookingCalendar {
      */
     setBookingList(digit?: string) {
         const today = new Date().getDate() + '';
-        let day: Day = { digit: (digit) ? digit : today, hours: ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00'] };
+        let day: Day = { digit: (digit) ? digit : today, hours: ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'] };
+        day = this._calendar.foo(day);
         this._bookingList.setHours(day);
     }
 
