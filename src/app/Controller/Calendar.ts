@@ -3,6 +3,7 @@ import { lang as langDays } from './../lang/days';
 import { Day } from './../Interfaces/Day';
 import { Language } from '../Pipes/Language';
 import { ApiCalendar } from '../Services/ApiCalendar';
+import { stringify } from 'node:querystring';
 
 export class Calendar {
 
@@ -27,6 +28,11 @@ export class Calendar {
      * Names of the days
      */
     daysName: string[] = [];
+
+    /**
+     * 
+     */
+    busyHours: string[] = [];
 
     /**
      * @param key {string} Google Calendar API KEY
@@ -201,21 +207,24 @@ export class Calendar {
     getDayDigit(day: Day): string {
         return (day?.digit) ? day.digit : "";
     }
-    
+
     /**
      * 
      * @param day 
      */
-    setDay(day: string): void {
+    setDay(day: string): Promise<boolean> {
         const date: Date = new Date(this.currentDate.getFullYear(),
             this.currentDate.getMonth(),
             parseInt(day), 1)
-        this.api.get(date)
-        .then((data)=>{
-            this.setBusyHours(data);
-        }).catch((error)=>{
-            console.log(error);
-        })
+        return new Promise((resolve, reject) => {
+            this.api.get(date)
+            .then((data) => {
+                this.setBusyHours(data);
+                resolve(true);
+            }).catch((error) => {
+                reject(true);
+            })
+        });
     }
 
     /**
@@ -223,13 +232,23 @@ export class Calendar {
      * @param json 
      */
     setBusyHours(json: any[]): void {
-        json.forEach((item)=>{
+        const busyHours: string[] = [];
+        json.forEach((item) => {
             let hourT = item.start.dateTime.split("T")[1].split("+")[0];
             let hour = hourT.split(":")[0];
             let minutes = hourT.split(":")[1];
-            hour = hour+":"+minutes;
-            console.log(hour); 
+            hour = hour + ":" + minutes;
+            busyHours.push(hour)
         })
+        this.busyHours = busyHours;
+    }
+
+    foo(day: Day) {
+        const busyHours: string[] = this.busyHours;
+        day.hours = day.hours.filter(function (val: string) {
+            return busyHours.indexOf(val) == -1;
+        });
+        return day;
     }
 
 }

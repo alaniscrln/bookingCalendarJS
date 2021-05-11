@@ -1,4 +1,4 @@
-import endpoints from "../config/calendar.config"
+import endpoints from "../config/api.config"
 
 export class ApiCalendar {
 
@@ -6,7 +6,6 @@ export class ApiCalendar {
     }
 
     async get(date: Date) {
-        console.log(date);
         const formatDate: string = date.toISOString().split('T')[0];
         const timeMin: string = endpoints.paramHourMin + formatDate + endpoints.valueHourMin;
         const timeMax: string = endpoints.paramHourMax + formatDate + endpoints.valueHourMax;
@@ -16,7 +15,6 @@ export class ApiCalendar {
             method: 'GET'
         })
         const calendar = await response.json()
-        console.log(calendar.items)
         return calendar.items;
     }
 }

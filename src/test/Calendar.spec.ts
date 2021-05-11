@@ -1,4 +1,4 @@
-import { Calendar } from '../app/Calendar';
+import { Calendar } from '../app/Controller/Calendar';
 
 import { spanish as spanishMonthsNames, english as englishMonthsNames } from './fixtures/months-names.json';
 import { august as augustStructure, october as octoberStructure } from './fixtures/months-structure.json';
@@ -10,7 +10,7 @@ describe('Calendar class', () => {
 
     describe('in Spanish', () => {
         beforeEach(() => {
-            calendar = new Calendar('es', 'key');
+            calendar = new Calendar('es');
         });
 
         describe("getMonths function", () => {
@@ -75,7 +75,7 @@ describe('Calendar class', () => {
     /* ----------------------------- Start English ----------------------------- */
     describe('in English', () => {
         beforeEach(() => {
-            calendar = new Calendar('en', 'key');
+            calendar = new Calendar('en');
         });
 
         describe("getMonths function", () => {
@@ -103,7 +103,7 @@ describe('Calendar class', () => {
 
     describe("Generics test", () => {
         beforeEach(() => {
-            calendar = new Calendar('es', 'key');
+            calendar = new Calendar('es');
         });
 
         describe("setMonthStructure function", () => {

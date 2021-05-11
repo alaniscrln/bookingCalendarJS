@@ -1,3 +1,4 @@
+import { Calendar } from "../Controller/Calendar";
 import { Day } from "./../Interfaces/Day";
 
 export class BookingList {
@@ -26,6 +27,7 @@ export class BookingList {
      */
     setHours(day: Day): void {
         this.listContainer.innerHTML = '';
+
         day.hours.forEach(hour => {
             let hourBtn = document.createElement("a");
             hourBtn.classList.add('hour');

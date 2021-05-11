@@ -2,6 +2,8 @@ import { Calendar } from '../Controller/Calendar';
 import { BookingList } from './BookingList';
 import { Language } from '../Pipes/Language';
 import { Day } from '../Interfaces/Day';
+import config from "../config/calendar.config"
+
 
 export class BookingCalendar {
 
@@ -193,7 +195,8 @@ export class BookingCalendar {
         const selectedBtn = (e.target as HTMLButtonElement);
         selectedBtn.classList.add('active');
         const day = selectedBtn.innerHTML as string;
-        this._calendar.setDay(day);
+        // this._calendar.setDay(day);
+        console.log(day);
         this.setBookingList(day)
     }
 
@@ -202,8 +205,16 @@ export class BookingCalendar {
      */
     setBookingList(digit?: string) {
         const today = new Date().getDate() + '';
-        let day: Day = { digit: (digit) ? digit : today, hours: ['12:30', '13:00', '13:30', '14:00', '14:30', '15:00'] };
-        this._bookingList.setHours(day);
+        let day: Day = { digit: (digit) ? digit : today, hours: config.availableHours };
+        this._calendar.setDay(day.digit)
+            .then(result => {
+                day = this._calendar.foo(day);
+                console.log(day);
+                this._bookingList.setHours(day);
+            }).catch(error => {
+                console.log(error);
+            })
+
     }
 
 }
