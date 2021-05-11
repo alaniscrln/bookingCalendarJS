@@ -2,6 +2,8 @@ import { Calendar } from '../Controller/Calendar';
 import { BookingList } from './BookingList';
 import { Language } from '../Pipes/Language';
 import { Day } from '../Interfaces/Day';
+import config from "../config/calendar.config"
+
 
 export class BookingCalendar {
 
@@ -203,7 +205,7 @@ export class BookingCalendar {
      */
     setBookingList(digit?: string) {
         const today = new Date().getDate() + '';
-        let day: Day = { digit: (digit) ? digit : today, hours: ['11:30', '12:00', '12:30', '13:00', '13:30', '14:00'] };
+        let day: Day = { digit: (digit) ? digit : today, hours: config.availableHours };
         this._calendar.setDay(day.digit)
             .then(result => {
                 day = this._calendar.foo(day);
