@@ -1,7 +1,7 @@
-import { Calendar } from '../Controller/Calendar';
+import { Calendar } from '../controller/Calendar';
 import { BookingList } from './BookingList';
-import { Language } from '../Pipes/Language';
-import { Day } from '../Interfaces/Day';
+import { Language } from '../pipes/Language';
+import { Day } from '../interfaces/Day';
 import config from "../config/calendar.config"
 
 
@@ -195,8 +195,6 @@ export class BookingCalendar {
         const selectedBtn = (e.target as HTMLButtonElement);
         selectedBtn.classList.add('active');
         const day = selectedBtn.innerHTML as string;
-        // this._calendar.setDay(day);
-        console.log(day);
         this.setBookingList(day)
     }
 

@@ -1,8 +1,8 @@
-import { lang as langMonths } from './../lang/months';
-import { lang as langDays } from './../lang/days';
-import { Day } from './../Interfaces/Day';
-import { Language } from '../Pipes/Language';
-import { ApiCalendar } from '../Services/ApiCalendar';
+import { lang as langMonths } from '../lang/months';
+import { lang as langDays } from '../lang/days';
+import { Day } from '../interfaces/Day';
+import { Language } from '../pipes/Language';
+import { ApiCalendar } from '../services/ApiCalendar';
 import { stringify } from 'node:querystring';
 
 export class Calendar {

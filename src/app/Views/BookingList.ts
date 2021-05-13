@@ -1,5 +1,5 @@
-import { Calendar } from "../Controller/Calendar";
-import { Day } from "./../Interfaces/Day";
+import { Day } from "../interfaces/Day";
+import { BookingModalForm } from "./BookingModalForm";
 
 export class BookingList {
 
@@ -8,9 +8,16 @@ export class BookingList {
      */
     listContainer: HTMLElement;
 
+    /**
+     * BookingModalForm Object
+     */
+    _form: BookingModalForm
+
     constructor() {
         this.listContainer = document.createElement("div");
         this.listContainer.setAttribute('id', 'hours-container');
+        this._form = new BookingModalForm();
+        this._form.init();
     }
 
     /**
@@ -33,7 +40,10 @@ export class BookingList {
             hourBtn.classList.add('hour');
             hourBtn.innerHTML = hour;
             this.listContainer.appendChild(hourBtn);
+
+            hourBtn.addEventListener("click", () =>
+                this._form.showModal()
+            );
         });
     }
-
 }
