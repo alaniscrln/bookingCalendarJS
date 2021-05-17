@@ -4,7 +4,6 @@ import { Language } from '../pipes/Language';
 import { Day } from '../interfaces/Day';
 import config from "../config/calendar.config"
 
-
 export class BookingCalendar {
 
     /**
@@ -69,9 +68,10 @@ export class BookingCalendar {
         this.fillCalendarDaysElement();
         this.container.appendChild(this.calendarContainer)
         this.togglePreviousButton();
-        this.container.appendChild(this._bookingList.getListContainer());
+        this.container.appendChild(this._bookingList.getHoursContainer());
         this.setBookingList();
-        this.container.append(this._bookingList.boo());
+        this.container.append(this._bookingList.getTimezoneContainer());
+        this._bookingList.setCountrySelect();
     }
 
     /**

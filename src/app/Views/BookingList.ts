@@ -1,4 +1,3 @@
-import { Country as CountryClass} from "../Interfaces/Country";
 import { Day } from "../interfaces/Day";
 import { Timezone } from "../Services/Timezone";
 import { BookingModalForm } from "./BookingModalForm";
@@ -9,7 +8,7 @@ export class BookingList {
     /**
      * Available hours container
      */
-    listContainer: HTMLElement;
+    hoursContainer: HTMLElement;
 
     /**
      * BookingModalForm Object
@@ -21,20 +20,25 @@ export class BookingList {
      */
     _timezone: Timezone;
 
+    /** */
+    _timezoneContainer: HTMLElement;
+
     constructor() {
-        this.listContainer = document.createElement("div");
-        this.listContainer.setAttribute('id', 'hours-container');
+        this.hoursContainer = document.createElement("div");
+        this.hoursContainer.setAttribute('id', 'hours-container');
         this._form = new BookingModalForm();
         this._timezone = new Timezone();
+        this._timezoneContainer = document.createElement("div");
+        this._timezoneContainer.setAttribute('id', 'timezone-container');
         this._form.init();
     }
 
     /**
-     * Get list container
-     * @returns list container {HTMLElement} 
+     * Get hours  container
+     * @returns hours container {HTMLElement} 
      */
-    getListContainer(): HTMLElement {
-        return this.listContainer;
+    getHoursContainer(): HTMLElement {
+        return this.hoursContainer;
     }
 
     /**
@@ -42,13 +46,13 @@ export class BookingList {
      * @param day of which the available hours will be set
      */
     setHours(day: Day): void {
-        this.listContainer.innerHTML = '';
+        this.hoursContainer.innerHTML = '';
 
         day.hours.forEach(hour => {
             let hourBtn = document.createElement("a");
             hourBtn.classList.add('hour');
             hourBtn.innerHTML = hour;
-            this.listContainer.appendChild(hourBtn);
+            this.hoursContainer.appendChild(hourBtn);
 
             hourBtn.addEventListener("click", () =>
                 this._form.showModal()
@@ -57,16 +61,30 @@ export class BookingList {
     }
 
     /**
-     * 
+     * Sets the select element with all the countries
      */
-    boo(){
+    setCountrySelect() {
         const allCountries = this._timezone.getAllCountries();
         const select = document.createElement("select");
-        Object.values(allCountries ).forEach((element: Country) => {
-          let option = document.createElement("option");
-          option.innerHTML = element.name + "";
-          select.appendChild(option);
+        Object.values(allCountries).forEach((country: Country) => {
+            let option = document.createElement("option");
+            option.value = country.id;
+            option.innerHTML = country.name + "";
+            select.appendChild(option);
         });
-        return select;
+        select.addEventListener("change", (e: any) => {
+            let id: string = e.target.value + "";
+            
+        });
+        this._timezoneContainer.append(select);
     }
+
+    /**
+     * 
+     * @returns 
+     */
+    getTimezoneContainer(): HTMLElement {
+        return this._timezoneContainer;
+    }
+
 }

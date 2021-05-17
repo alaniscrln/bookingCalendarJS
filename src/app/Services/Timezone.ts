@@ -2,9 +2,14 @@
 import * as lib from 'countries-and-timezones';
 export class Timezone {
 
-    constructor(){}
+    constructor() { }
 
-    getAllCountries(){
+    getAllCountries() {
         return lib.getAllCountries();
     }
+
+    getTimezoneForCountry(id: string): lib.Timezone[] {
+        return lib.getTimezonesForCountry(id);
+    }
+
 }
