@@ -1,7 +1,7 @@
 import { Day } from "../interfaces/Day";
-import { Timezone } from "../Services/Timezone";
+import { Timezone as TimezoneService } from "../Services/Timezone";
 import { BookingModalForm } from "./BookingModalForm";
-import { Country } from 'countries-and-timezones';
+import { Country, Timezone } from 'countries-and-timezones';
 
 export class BookingList {
 
@@ -18,18 +18,27 @@ export class BookingList {
     /**
      * 
      */
-    _timezone: Timezone;
+    _timezone: TimezoneService;
 
-    /** */
-    _timezoneContainer: HTMLElement;
+    /** 
+     * Timezone Container 
+     */
+    timezoneContainer: HTMLElement;
+
+    /**
+     * 
+     */
+    selectTimezone: HTMLElement;
 
     constructor() {
         this.hoursContainer = document.createElement("div");
         this.hoursContainer.setAttribute('id', 'hours-container');
         this._form = new BookingModalForm();
-        this._timezone = new Timezone();
-        this._timezoneContainer = document.createElement("div");
-        this._timezoneContainer.setAttribute('id', 'timezone-container');
+        this._timezone = new TimezoneService();
+        this.timezoneContainer = document.createElement("div");
+        this.timezoneContainer.setAttribute('id', 'timezone-container');
+        this.selectTimezone = document.createElement("select");
+        this.selectTimezone.setAttribute('id', 'timezones');
         this._form.init();
     }
 
@@ -66,17 +75,29 @@ export class BookingList {
     setCountrySelect() {
         const allCountries = this._timezone.getAllCountries();
         const select = document.createElement("select");
+
         Object.values(allCountries).forEach((country: Country) => {
             let option = document.createElement("option");
             option.value = country.id;
+            option.defaultSelected = (country.id == "ES") ? true : false;
             option.innerHTML = country.name + "";
             select.appendChild(option);
         });
-        select.addEventListener("change", (e: any) => {
-            let id: string = e.target.value + "";
-            
+
+        select.addEventListener("change", (e: any)=>{
+            const id: string = e.target.value + "";
+            const timezones = this._timezone.getTimezoneForCountry(id);
+            this.selectTimezone.innerHTML = "";
+            Object.values(timezones).forEach((zone: Timezone) => {
+                let option = document.createElement("option");
+                option.value = zone.name;
+                option.innerHTML = '(UTC ' + zone.utcOffsetStr + ') ' + zone.name.split('/')[1];
+                this.selectTimezone.appendChild(option);
+            });
         });
-        this._timezoneContainer.append(select);
+
+        this.timezoneContainer.append(select);
+        this.timezoneContainer.append(this.selectTimezone);
     }
 
     /**
@@ -84,7 +105,7 @@ export class BookingList {
      * @returns 
      */
     getTimezoneContainer(): HTMLElement {
-        return this._timezoneContainer;
+        return this.timezoneContainer;
     }
 
 }
