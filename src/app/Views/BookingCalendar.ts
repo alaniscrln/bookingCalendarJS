@@ -71,6 +71,7 @@ export class BookingCalendar {
         this.togglePreviousButton();
         this.container.appendChild(this._bookingList.getListContainer());
         this.setBookingList();
+        this.container.append(this._bookingList.boo());
     }
 
     /**

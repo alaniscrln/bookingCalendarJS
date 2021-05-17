@@ -44,7 +44,9 @@
   },
   "dependencies": {
     "@googleapis/docs": "^0.2.0",
+    "@types/countries-and-timezones": "^2.0.3",
     "@types/gapi": "0.0.39",
+    "countries-and-timezones": "^2.4.0",
     "gapi": "0.0.3"
   }
 }

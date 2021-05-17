@@ -1,5 +1,8 @@
+import { Country as CountryClass} from "../Interfaces/Country";
 import { Day } from "../interfaces/Day";
+import { Timezone } from "../Services/Timezone";
 import { BookingModalForm } from "./BookingModalForm";
+import { Country } from 'countries-and-timezones';
 
 export class BookingList {
 
@@ -11,12 +14,18 @@ export class BookingList {
     /**
      * BookingModalForm Object
      */
-    _form: BookingModalForm
+    _form: BookingModalForm;
+
+    /**
+     * 
+     */
+    _timezone: Timezone;
 
     constructor() {
         this.listContainer = document.createElement("div");
         this.listContainer.setAttribute('id', 'hours-container');
         this._form = new BookingModalForm();
+        this._timezone = new Timezone();
         this._form.init();
     }
 
@@ -45,5 +54,19 @@ export class BookingList {
                 this._form.showModal()
             );
         });
+    }
+
+    /**
+     * 
+     */
+    boo(){
+        const allCountries = this._timezone.getAllCountries();
+        const select = document.createElement("select");
+        Object.values(allCountries ).forEach((element: Country) => {
+          let option = document.createElement("option");
+          option.innerHTML = element.name + "";
+          select.appendChild(option);
+        });
+        return select;
     }
 }
