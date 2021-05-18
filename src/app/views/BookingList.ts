@@ -28,7 +28,7 @@ export class BookingList {
     /**
      * 
      */
-    selectTimezone: HTMLElement;
+    selectTimezone: HTMLSelectElement;
 
     constructor() {
         this.hoursContainer = document.createElement("div");
@@ -56,10 +56,12 @@ export class BookingList {
      */
     setHours(day: Day): void {
         this.hoursContainer.innerHTML = '';
+        const timezone = this.selectTimezone.value;
 
         day.hours.forEach(hour => {
             let hourBtn = document.createElement("a");
             hourBtn.classList.add('hour');
+            hour = this._timezone.calculeTimezone(timezone, hour)
             hourBtn.innerHTML = hour;
             this.hoursContainer.appendChild(hourBtn);
 
