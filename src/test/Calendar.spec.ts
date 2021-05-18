@@ -1,4 +1,4 @@
-import { Calendar } from '../app/Controller/Calendar';
+import { Calendar } from '../app/controller/Calendar';
 
 import { spanish as spanishMonthsNames, english as englishMonthsNames } from './fixtures/months-names.json';
 import { august as augustStructure, october as octoberStructure } from './fixtures/months-structure.json';

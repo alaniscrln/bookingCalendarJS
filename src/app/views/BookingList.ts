@@ -1,5 +1,5 @@
 import { Day } from "../interfaces/Day";
-import { Timezone as TimezoneService } from "../Services/Timezone";
+import { Timezone as TimezoneService } from "../services/Timezone";
 import { BookingModalForm } from "./BookingModalForm";
 import { Country, Timezone } from 'countries-and-timezones';
 
@@ -84,21 +84,29 @@ export class BookingList {
             select.appendChild(option);
         });
 
-        select.addEventListener("change", (e: any)=>{
-            const id: string = e.target.value + "";
-            const timezones = this._timezone.getTimezoneForCountry(id);
-            this.selectTimezone.innerHTML = "";
-            Object.values(timezones).forEach((zone: Timezone) => {
-                let option = document.createElement("option");
-                option.value = zone.name;
-                option.innerHTML = '(UTC ' + zone.utcOffsetStr + ') ' + zone.name.split('/')[1];
-                this.selectTimezone.appendChild(option);
-            });
+        select.addEventListener("change", (e: any) => {
+            const id: string = e.target.value;
+            this.setTimezones(id)
         });
-
+        this.setTimezones('ES');
         this.timezoneContainer.append(select);
         this.timezoneContainer.append(this.selectTimezone);
     }
+
+
+    setTimezones = (id: string) => {
+        const timezones = this._timezone.getTimezoneForCountry(id);
+        this.selectTimezone.innerHTML = "";
+        Object.values(timezones).forEach((zone: Timezone) => {
+            if (zone.name.split('/')[1] !== undefined) {
+                let option = document.createElement("option");
+                option.value = zone.name;
+                option.innerHTML = '(UTC ' + zone.utcOffsetStr + ') ' + zone.name.split('/')[1].replace('_',' ');
+                this.selectTimezone.appendChild(option);
+            }
+        });
+    }
+
 
     /**
      * 
