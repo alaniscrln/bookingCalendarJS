@@ -207,7 +207,7 @@ export class BookingCalendar {
         let day: Day = { digit: (digit) ? digit : today, hours: config.availableHours };
         this._calendar.setDay(day.digit)
             .then(result => {
-                day = this._calendar.foo(day);
+                day = this._calendar.removeBusyHours(day);
                 console.log(day);
                 this._bookingList.setHours(day);
             }).catch(error => {

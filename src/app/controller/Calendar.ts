@@ -209,8 +209,8 @@ export class Calendar {
     }
 
     /**
-     * 
-     * @param day 
+     * Call the api and get the busy hour of the calendar
+     * @param day {string} Day of wich we are going to get the hours
      */
     setDay(day: string): Promise<boolean> {
         const date: Date = new Date(this.currentDate.getFullYear(),
@@ -228,7 +228,7 @@ export class Calendar {
     }
 
     /**
-     * 
+     * Set the busy hours 
      * @param json 
      */
     setBusyHours(json: any[]): void {
@@ -243,7 +243,12 @@ export class Calendar {
         this.busyHours = busyHours;
     }
 
-    foo(day: Day) {
+    /**
+     * Remove busy hours of the days hours
+     * @param day {Day}
+     * @returns the day without the busy hours
+     */
+    removeBusyHours(day: Day) {
         const busyHours: string[] = this.busyHours;
         day.hours = day.hours.filter(function (val: string) {
             return busyHours.indexOf(val) == -1;
