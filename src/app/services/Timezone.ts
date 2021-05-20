@@ -1,5 +1,7 @@
 //const ct = require("countries-and-timezones");
 import * as lib from 'countries-and-timezones';
+import * as moment from 'moment-timezone'
+
 export class Timezone {
 
     constructor() { }
@@ -14,14 +16,10 @@ export class Timezone {
 
     calculeTimezone(timezone: string, hourDate: string) {
         const hour = parseInt(hourDate.split(":")[0]);
-        let minutes = parseInt(hourDate.split(":")[1]);
-
+        const minutes = parseInt(hourDate.split(":")[1]);
         const date = new Date();
         date.setHours(hour, minutes);
-        const dateFormat = new Date(new Date(date).toLocaleString("en-US", { timeZone: timezone }));
-
-        const formatMinutes = (dateFormat.getMinutes().toString().length > 1) ? dateFormat.getMinutes() : '0' + dateFormat.getMinutes();
-
-        return dateFormat.getHours() + ":" + formatMinutes;
+        const result = moment.utc(date.getTime()).tz(timezone).format("HH:mm");
+        return result;
     }
 }
